@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] new bug in indexer ?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20new%20bug%20in%20indexer%20%3F&In-Reply-To=%3C20051104085220.GA1219%40logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000018.html">
+   <LINK REL="Next"  HREF="000020.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] new bug in indexer ?</H1>
+    <B>Aur&#233;lien Camp&#233;as</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20new%20bug%20in%20indexer%20%3F&In-Reply-To=%3C20051104085220.GA1219%40logilab.fr%3E"
+       TITLE="[Maay-dev] new bug in indexer ?">aurelien.campeas at logilab.fr
+       </A><BR>
+    <I>Fri Nov  4 09:52:21 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000018.html">[Maay-dev] new bug in indexer ?
+</A></li>
+        <LI>Next message: <A HREF="000020.html">[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, Nov 03, 2005 at 06:39:42PM +0100, Aur&#233;lien Camp&#233;as wrote:
+&gt;<i> On Thu, Nov 03, 2005 at 04:29:30PM +0100, Fr&#233;d&#233;ric Dang Ngoc wrote:
+</I>&gt;<i> &gt; Hi,
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; I have just updated the maay source from the subversion repository
+</I>&gt;<i> &gt; and I have this error when launching the indexer. Any ideas ?
+</I>&gt;<i> 
+</I>&gt;<i> Your later fix was right. I just deleted the db key stuff also.
+</I>&gt;<i> 
+</I>&gt;<i> Question for the xmlrpclib gurus : does xmlrpclib not support
+</I>&gt;<i> serialization of new-style classes (or something else was happening ?) ?
+</I>
+It doesn't. That was the cause of the crash.
+
+&gt;<i> 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Traceback (most recent call last):
+</I>&gt;<i> &gt;   File &quot;indexer.py&quot;, line 326, in ?
+</I>&gt;<i> &gt;     run()
+</I>&gt;<i> &gt;   File &quot;indexer.py&quot;, line 318, in run
+</I>&gt;<i> &gt;     indexer.start()
+</I>&gt;<i> &gt;   File &quot;indexer.py&quot;, line 115, in start
+</I>&gt;<i> &gt;     existingFiles = self.runIndexer(isPrivate=True)
+</I>&gt;<i> &gt;   File &quot;indexer.py&quot;, line 154, in runIndexer
+</I>&gt;<i> &gt;     state=state))
+</I>&gt;<i> &gt;   File &quot;indexer.py&quot;, line 174, in indexDocument
+</I>&gt;<i> &gt;     self.serverProxy.indexDocument(self.cnxId, futureDoc)
+</I>&gt;<i> &gt;   File &quot;/usr/lib/python2.4/xmlrpclib.py&quot;, line 1096, in __call__
+</I>&gt;<i> &gt;     return self.__send(self.__name, args)
+</I>&gt;<i> &gt;   File &quot;/usr/lib/python2.4/xmlrpclib.py&quot;, line 1377, in __request
+</I>&gt;<i> &gt;     allow_none=self.__allow_none)
+</I>&gt;<i> &gt;   File &quot;/usr/lib/python2.4/xmlrpclib.py&quot;, line 1029, in dumps
+</I>&gt;<i> &gt;     data = m.dumps(params)
+</I>&gt;<i> &gt;   File &quot;/usr/lib/python2.4/xmlrpclib.py&quot;, line 603, in dumps
+</I>&gt;<i> &gt;     dump(v, write)
+</I>&gt;<i> &gt;   File &quot;/usr/lib/python2.4/xmlrpclib.py&quot;, line 613, in __dump
+</I>&gt;<i> &gt;     raise TypeError, &quot;cannot marshal %s objects&quot; % type(value)
+</I>&gt;<i> &gt; TypeError: cannot marshal &lt;class 'maay.dbentity.FutureDocument'&gt; objects
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; --
+</I>&gt;<i> &gt; Fr&#233;d&#233;ric Dang Ngoc
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Maay-dev mailing list
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/maay-dev">Maay-dev at lists.berlios.de</A>
+</I>&gt;<i> &gt; <A HREF="http://lists.berlios.de/mailman/listinfo/maay-dev">http://lists.berlios.de/mailman/listinfo/maay-dev</A>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Maay-dev mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/maay-dev">Maay-dev at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="http://lists.berlios.de/mailman/listinfo/maay-dev">http://lists.berlios.de/mailman/listinfo/maay-dev</A>
+</I>&gt;<i> 
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000018.html">[Maay-dev] new bug in indexer ?
+</A></li>
+	<LI>Next message: <A HREF="000020.html">[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

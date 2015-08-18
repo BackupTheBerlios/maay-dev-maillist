@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] maay under windows
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20maay%20under%20windows&In-Reply-To=%3C20051114121709.GC21626%40crater.logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000034.html">
+   <LINK REL="Next"  HREF="000028.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] maay under windows</H1>
+    <B>Alexandre Fayolle</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20maay%20under%20windows&In-Reply-To=%3C20051114121709.GC21626%40crater.logilab.fr%3E"
+       TITLE="[Maay-dev] maay under windows">alexandre.fayolle at logilab.fr
+       </A><BR>
+    <I>Mon Nov 14 13:17:09 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000034.html">[Maay-dev] maay under windows
+</A></li>
+        <LI>Next message: <A HREF="000028.html">[Maay-dev] maay under windows
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, Nov 14, 2005 at 12:26:12PM +0100, Fr&#233;d&#233;ric Dang Ngoc wrote:
+&gt;<i> Thanks you for your answers.
+</I>&gt;<i> 
+</I>&gt;<i> I install maay on another computer and it works.
+</I>&gt;<i> I don't know what's going wrong with the other computer...
+</I>&gt;<i> 
+</I>&gt;<i> I suceed in generating the auto-installer and make Maay work but I get some
+</I>&gt;<i> problems. In the following, the problems, and the (dirty) solutions
+</I>&gt;<i> that I use to solve them :
+</I>&gt;<i> 
+</I>&gt;<i> - the method dbApiMod.connect method (called in querier.py) does not support the
+</I>&gt;<i> parameter unicode=true. This does not work using the latest debian
+</I>&gt;<i> twisted package
+</I>&gt;<i> and  on Windows using packages on their website (v2.0.1).
+</I>&gt;<i> dirty solution : remove the parameter unicode = true ?
+</I>
+Please do not do that !
+
+We are using a development version of logilab.common which we have
+updated to handle unicode on mysql databases. Removing the unicode=true
+parameter will result in crashes. I'm attaching the current version of
+the patched file. Just copy it over the existing file on your windows
+box. 
+
+&gt;<i> 
+</I>&gt;<i> - When Maay is launched as a service (maay.exe), it raises this exception :
+</I>&gt;<i> The instance's SvcRun() method failed
+</I>&gt;<i>   File &quot;win32serviceutil.pyc&quot;, line 743, in SvcRun
+</I>&gt;<i>   File &quot;maayservice.pyc&quot;, line 44, in SvcDoRun
+</I>&gt;<i>   File &quot;maay\node.pyc&quot;, line 268, in run
+</I>&gt;<i>   File &quot;twisted\internet\posixbase.pyc&quot;, line 198, in run
+</I>&gt;<i>   File &quot;twisted\internet\posixbase.pyc&quot;, line 194, in startRunning
+</I>&gt;<i>   File &quot;twisted\internet\posixbase.pyc&quot;, line 169, in _handleSignals
+</I>&gt;<i> exceptions.ValueError: signal only works in main thread
+</I>&gt;<i> And the service is not started.
+</I>&gt;<i> 
+</I>&gt;<i> dirty solution : I see on the web that one solution is to call the
+</I>&gt;<i> reactor.run method using the installSignalHandlers parameter set to 0
+</I>&gt;<i> :
+</I>&gt;<i> reactor.run(installSignalHandlers=0)
+</I>
+Can you commit this change to the subversion manager ?
+
+We have spent a lot of time getting the core functionalities to work, and less
+on the windows Service aspects. 
+
+Thanks. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+<A HREF="http://www.logilab.com">http://www.logilab.com</A>   <A HREF="http://www.logilab.fr">http://www.logilab.fr</A>  <A HREF="http://www.logilab.org">http://www.logilab.org</A>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: db.py
+Type: text/x-python
+Size: 15355 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.py">https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.py</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.pgp">https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000034.html">[Maay-dev] maay under windows
+</A></li>
+	<LI>Next message: <A HREF="000028.html">[Maay-dev] maay under windows
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

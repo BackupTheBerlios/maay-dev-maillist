@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] Re: [Maay-svncheckins] r569 - in trunk/maay: . data
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r569%20-%20in%20trunk/maay%3A%20.%20data&In-Reply-To=%3C20051118160950.GA1178%40logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000044.html">
+   <LINK REL="Next"  HREF="000046.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] Re: [Maay-svncheckins] r569 - in trunk/maay: . data</H1>
+    <B>Aur&#233;lien Camp&#233;as</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r569%20-%20in%20trunk/maay%3A%20.%20data&In-Reply-To=%3C20051118160950.GA1178%40logilab.fr%3E"
+       TITLE="[Maay-dev] Re: [Maay-svncheckins] r569 - in trunk/maay: . data">aurelien.campeas at logilab.fr
+       </A><BR>
+    <I>Fri Nov 18 17:09:50 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000044.html">[Maay-dev] documentation
+</A></li>
+        <LI>Next message: <A HREF="000046.html">[Maay-dev] great news
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Frederic,
+
+Well, displaying stat. info and some marketing blurb is nice and
+important but I have some observations with respect to the way it is
+currently displayed :
+
+* the marketing text in orange is slightly too big (for my taste, that may be
+  not universal),
+* the text displaying stats is too small (especially for me, but other
+  people might be affected too) while probably more
+  important/informative than the marketing piece
+* both pieces are separated by a huge white/blank space but the orange
+  stuff seems scotched to the search box
+* the search box and the &quot;search&quot; button are misaligned, and this may
+  seem deeply wrong to users in FT later ....
+
+* last thing : the count for local documents seems currently, maxing
+  out at 50
+
+I hope you can do something about these items.
+
+Cheers,
+Aur&#233;lien.
+
+On Fri, Nov 18, 2005 at 03:47:39PM +0100, dnf at BerliOS wrote:
+&gt;<i> Author: dnf
+</I>&gt;<i> Date: 2005-11-18 15:47:38 +0100 (Fri, 18 Nov 2005)
+</I>&gt;<i> New Revision: 569
+</I>&gt;<i> 
+</I>&gt;<i> Modified:
+</I>&gt;<i>    trunk/maay/data/liveresults.html
+</I>&gt;<i>    trunk/maay/data/maay.css
+</I>&gt;<i>    trunk/maay/data/searchform.html
+</I>&gt;<i>    trunk/maay/data/skeleton.html
+</I>&gt;<i>    trunk/maay/dbentity.py
+</I>&gt;<i>    trunk/maay/querier.py
+</I>&gt;<i>    trunk/maay/webapplication.py
+</I>&gt;<i> Log:
+</I>&gt;<i> Some esthetic modifications.
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/data/liveresults.html
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/data/liveresults.html	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/data/liveresults.html	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -43,7 +43,7 @@
+</I>&gt;<i>  
+</I>&gt;<i>    &lt;/head&gt;
+</I>&gt;<i>    &lt;body onload=&quot;startConnection()&quot;&gt;
+</I>&gt;<i> -    &lt;div class=&quot;headlinks&quot;&gt;&lt;a href=&quot;/indexation&quot; class=&quot;headlink&quot;&gt;[Indexation&nbsp;Page]&nbsp;&lt;/a&gt;&lt;/div&gt;
+</I>&gt;<i> +    &lt;div class=&quot;headlinks&quot;&gt;&lt;a href=&quot;/indexation&quot; class=&quot;headlink&quot;&gt;[Manage Folders]&lt;/a&gt;&lt;/div&gt;
+</I>&gt;<i>      &lt;div class=&quot;reSearch&quot;&gt;
+</I>&gt;<i>        &lt;form action=&quot;search&quot; accept-charset=&quot;utf-8&quot;&gt;
+</I>&gt;<i>  	&lt;table&gt;
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/data/maay.css
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/data/maay.css	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/data/maay.css	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -32,6 +32,11 @@
+</I>&gt;<i>  }
+</I>&gt;<i>  
+</I>&gt;<i>  /** search page *******/
+</I>&gt;<i> +div.shortDocStat {
+</I>&gt;<i> +  font-size: 60%;
+</I>&gt;<i> +}
+</I>&gt;<i> +
+</I>&gt;<i> +
+</I>&gt;<i>  input.searchButton {
+</I>&gt;<i>    background: #FFF0FF;
+</I>&gt;<i>    border: 1px outset #ff2222;
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/data/searchform.html
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/data/searchform.html	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/data/searchform.html	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -18,6 +18,10 @@
+</I>&gt;<i>              &lt;input type=&quot;text&quot; name=&quot;words&quot; value=&quot;&quot; /&gt;
+</I>&gt;<i>                &lt;input type=&quot;submit&quot; class=&quot;searchButton&quot; value=&quot;search&quot; /&gt;
+</I>&gt;<i>            &lt;/form&gt;
+</I>&gt;<i> +          &lt;font color=&quot;orange&quot; size=&quot;+1&quot;&gt;Search and share your documents.&lt;/font&gt;&lt;br /&gt;&lt;br /&gt;
+</I>&gt;<i> +          &lt;div class=&quot;shortDocStat&quot; nevow:render=&quot;shortstat&quot;&gt;
+</I>&gt;<i> +            Searching &lt;nevow:slot name=&quot;localDocumentCount&quot; /&gt; documents. Sharing &lt;nevow:slot name=&quot;publicDocumentCount&quot; /&gt; documents.
+</I>&gt;<i> +          &lt;/div&gt;
+</I>&gt;<i>          &lt;/td&gt;
+</I>&gt;<i>        &lt;/tr&gt;
+</I>&gt;<i>      &lt;/table&gt;
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/data/skeleton.html
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/data/skeleton.html	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/data/skeleton.html	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -6,7 +6,7 @@
+</I>&gt;<i>      &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;maaycss&quot;/&gt;
+</I>&gt;<i>        &lt;link rel=&quot;shortcut icon&quot; href=&quot;images/maay.ico&quot; /&gt;
+</I>&gt;<i>    &lt;/head&gt;
+</I>&gt;<i> -      &lt;div class=&quot;headlinks&quot;&gt;&lt;a href=&quot;/indexation&quot; class=&quot;headlink&quot;&gt;[Indexation&nbsp;Page]&nbsp;&lt;/a&gt;&lt;/div&gt;
+</I>&gt;<i> +      &lt;div class=&quot;headlinks&quot;&gt;&lt;a href=&quot;/indexation&quot; class=&quot;headlink&quot;&gt;[Manage Folders]&lt;/a&gt;&lt;/div&gt;
+</I>&gt;<i>    &lt;body&gt;
+</I>&gt;<i>      &lt;nevow:invisible nevow:macro=&quot;body&quot; /&gt;
+</I>&gt;<i>      &lt;nevow:invisble nevow:macro=&quot;footer&quot; /&gt;
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/dbentity.py
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/dbentity.py	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/dbentity.py	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -189,7 +189,9 @@
+</I>&gt;<i>      and only a few words are known
+</I>&gt;<i>  
+</I>&gt;<i>      * UNKNOWN_STATE (???): not documented in the thesis, has a strange
+</I>&gt;<i> -      value (1&lt;&lt;9) since it gets stored in a char or a signed byte
+</I>&gt;<i> +      value (1&lt;&lt;9) since it gets stored in a char or a signed byte.
+</I>&gt;<i> +      In fact, this state was (plan to be) used in the prototype for
+</I>&gt;<i> +      debugging purpose. So it is a useless state... 
+</I>&gt;<i>      &quot;&quot;&quot;
+</I>&gt;<i>  
+</I>&gt;<i>      # Caution : in the maay.orig branch, this parameter gets stored as
+</I>&gt;<i> @@ -303,6 +305,19 @@
+</I>&gt;<i>          return results[0]
+</I>&gt;<i>      selectUrlAndTypeWhereDocid = classmethod(selectUrlAndTypeWhereDocid)
+</I>&gt;<i>  
+</I>&gt;<i> +    # for stat purpose
+</I>&gt;<i> +    def getDocumentCount(cls, cursor):
+</I>&gt;<i> +        query = &quot;SELECT state, count(*) FROM documents GROUP BY state&quot;
+</I>&gt;<i> +        cursor.execute(query)
+</I>&gt;<i> +        results = cursor.fetchall()
+</I>&gt;<i> +
+</I>&gt;<i> +        docCounts = {Document.PUBLISHED_STATE:0, Document.PRIVATE_STATE:0,
+</I>&gt;<i> +            Document.CACHED_STATE:0, Document.KNOWN_STATE:0}
+</I>&gt;<i> +
+</I>&gt;<i> +        for result in results:
+</I>&gt;<i> +            docCounts[int(result[0])] = result[1]
+</I>&gt;<i> +        return docCounts
+</I>&gt;<i> +    getDocumentCount = classmethod(getDocumentCount)
+</I>&gt;<i>      
+</I>&gt;<i>  class Result(Document):
+</I>&gt;<i>      &quot;&quot;&quot;Results are temporary relations created/destroyed on the fly
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/querier.py
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/querier.py	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/querier.py	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -60,6 +60,9 @@
+</I>&gt;<i>          &quot;&quot;&quot;returns a list of indexed file names as strings
+</I>&gt;<i>          &quot;&quot;&quot;
+</I>&gt;<i>  
+</I>&gt;<i> +    def getDocumentCount(self):
+</I>&gt;<i> +        &quot;&quot;&quot;get document count&quot;&quot;&quot;
+</I>&gt;<i> +
+</I>&gt;<i>      def indexDocument(nodeId, futureDoc):
+</I>&gt;<i>          &quot;&quot;&quot;Inserts or update information in table documents,
+</I>&gt;<i>          file_info, document_score and word&quot;&quot;&quot;
+</I>&gt;<i> @@ -418,6 +421,13 @@
+</I>&gt;<i>          print &quot;removed %d rows related to unreferenced documents&quot; % rows
+</I>&gt;<i>          return rows
+</I>&gt;<i>  
+</I>&gt;<i> +    def getDocumentCount(self):
+</I>&gt;<i> +        &quot;&quot;&quot;get document count&quot;&quot;&quot;
+</I>&gt;<i> +        cursor = self._cnx.cursor()
+</I>&gt;<i> +        docCounts = Document.getDocumentCount(cursor)
+</I>&gt;<i> +        cursor.close()
+</I>&gt;<i> +        return docCounts
+</I>&gt;<i> +
+</I>&gt;<i>      def indexDocument(self, nodeId, futureDoc):
+</I>&gt;<i>          &quot;&quot;&quot;Inserts or update information in table documents,
+</I>&gt;<i>          file_info, document_score and word&quot;&quot;&quot;
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/webapplication.py
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/webapplication.py	2005-11-18 14:35:59 UTC (rev 568)
+</I>&gt;<i> +++ trunk/maay/webapplication.py	2005-11-18 14:47:38 UTC (rev 569)
+</I>&gt;<i> @@ -193,15 +193,18 @@
+</I>&gt;<i>          self.querier = querier
+</I>&gt;<i>          self.p2pquerier = p2pquerier
+</I>&gt;<i>          self.download_dir = indexer.indexerConfig.download_dir
+</I>&gt;<i> +
+</I>&gt;<i> +    def render_shortstat(self, context, data):
+</I>&gt;<i> +        docCounts = self.querier.getDocumentCount()
+</I>&gt;<i> +        context.fillSlots('localDocumentCount', docCounts[Document.PRIVATE_STATE] + docCounts[Document.PUBLISHED_STATE]) 
+</I>&gt;<i> +        context.fillSlots('publicDocumentCount', docCounts[Document.PUBLISHED_STATE]) 
+</I>&gt;<i> +        return context.tag
+</I>&gt;<i>          
+</I>&gt;<i>      def logout(self):
+</I>&gt;<i>          print &quot;Bye %s !&quot; % (self.maayId,)
+</I>&gt;<i>          # XXX: logout message should be forwarded to presence server
+</I>&gt;<i>          return None
+</I>&gt;<i>  
+</I>&gt;<i> -    def child_peers(self, context):
+</I>&gt;<i> -        return PeersList(self.maayId, self.querier)
+</I>&gt;<i> -
+</I>&gt;<i>      def child_indexation(self, context, _factory=IndexationPageFactory(IndexationPage)):
+</I>&gt;<i>          # TODO: check if the added folders are valid
+</I>&gt;<i>  
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Maay-svncheckins mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/maay-dev">Maay-svncheckins at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="http://lists.berlios.de/mailman/listinfo/maay-svncheckins">http://lists.berlios.de/mailman/listinfo/maay-svncheckins</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000044.html">[Maay-dev] documentation
+</A></li>
+	<LI>Next message: <A HREF="000046.html">[Maay-dev] great news
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#45">[ date ]</a>
+              <a href="thread.html#45">[ thread ]</a>
+              <a href="subject.html#45">[ subject ]</a>
+              <a href="author.html#45">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

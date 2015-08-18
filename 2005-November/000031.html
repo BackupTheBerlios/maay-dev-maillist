@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] launching the indexer from a web page
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20launching%20the%20indexer%20from%20a%20web%20page&In-Reply-To=%3C20051109080344.GF26897%40crater.logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000027.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] launching the indexer from a web page</H1>
+    <B>Alexandre Fayolle</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20launching%20the%20indexer%20from%20a%20web%20page&In-Reply-To=%3C20051109080344.GF26897%40crater.logilab.fr%3E"
+       TITLE="[Maay-dev] launching the indexer from a web page">alexandre.fayolle at logilab.fr
+       </A><BR>
+    <I>Wed Nov  9 09:03:44 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000027.html">[Maay-dev] Re: [Maay-svncheckins] r340 - trunk/maay
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Maay-dev] adresse du serveur de pr&#233;sence par d&#233;faut
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Fr&#233;d&#233;ric,
+
+We have taken great care and efforts so far in the code base to avoid
+using threads as much as possible, and to make sure that the indexer
+runs in a separate memory space from the node. This is because of some
+shortcomings in the Python threading model related to the global
+interpreter lock, which can lead to degraded performances in some cases. 
+
+Could you please change the code that launches the indexer so that it
+will run in a separate process, instead of a thread in the same process?
+
+Thanks.
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+<A HREF="http://www.logilab.com">http://www.logilab.com</A>   <A HREF="http://www.logilab.fr">http://www.logilab.fr</A>  <A HREF="http://www.logilab.org">http://www.logilab.org</A>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/maay-dev/attachments/20051109/2844243c/attachment.pgp">https://lists.berlios.de/pipermail/maay-dev/attachments/20051109/2844243c/attachment.pgp</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000027.html">[Maay-dev] Re: [Maay-svncheckins] r340 - trunk/maay
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Maay-dev] adresse du serveur de pr&#233;sence par d&#233;faut
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

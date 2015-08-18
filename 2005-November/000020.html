@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r297%20-%20trunk/maay&In-Reply-To=%3C20051104100611.GC1219%40logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay</H1>
+    <B>Aur&#233;lien Camp&#233;as</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r297%20-%20trunk/maay&In-Reply-To=%3C20051104100611.GC1219%40logilab.fr%3E"
+       TITLE="[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay">aurelien.campeas at logilab.fr
+       </A><BR>
+    <I>Fri Nov  4 11:06:11 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[Maay-dev] new bug in indexer ?
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Thu, Nov 03, 2005 at 07:28:57PM +0100, Fr&#233;d&#233;ric DANG NGOC at BerliOS wrote:
+&gt;<i> Author: dnf
+</I>&gt;<i> Date: 2005-11-03 19:28:55 +0100 (Thu, 03 Nov 2005)
+</I>&gt;<i> New Revision: 297
+</I>&gt;<i> 
+</I>&gt;<i> Modified:
+</I>&gt;<i>    trunk/maay/converter.py
+</I>&gt;<i> Log:
+</I>&gt;<i> Fix in CommandBasedConverter to catch the IOError raise by GZIP parser.
+</I>
+Hello Fred,
+
+could you provide a sample .gz files triggering the IOError ?
+
+thanks,
+
+
+&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> Modified: trunk/maay/converter.py
+</I>&gt;<i> ===================================================================
+</I>&gt;<i> --- trunk/maay/converter.py	2005-11-03 18:25:18 UTC (rev 296)
+</I>&gt;<i> +++ trunk/maay/converter.py	2005-11-03 18:28:55 UTC (rev 297)
+</I>&gt;<i> @@ -175,8 +175,11 @@
+</I>&gt;<i>          try:
+</I>&gt;<i>              if errcode == 0: # OK
+</I>&gt;<i>                  parser = self.getParser()
+</I>&gt;<i> -                return parser.parseFile(outputFile, osp.basename(filepath),
+</I>&gt;<i> +                try:
+</I>&gt;<i> +                    return parser.parseFile(outputFile, osp.basename(filepath),
+</I>&gt;<i>                                          self.OUTPUT_ENCODING)
+</I>&gt;<i> +                except IOError:
+</I>&gt;<i> +                    raise IndexationFailure('Unable to index %r' % filepath)
+</I>&gt;<i>              else:
+</I>&gt;<i>                  raise IndexationFailure('Unable to index %r' % filepath)
+</I>&gt;<i>          finally:
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Maay-svncheckins mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/maay-dev">Maay-svncheckins at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="http://lists.berlios.de/mailman/listinfo/maay-svncheckins">http://lists.berlios.de/mailman/listinfo/maay-svncheckins</A>
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[Maay-dev] new bug in indexer ?
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

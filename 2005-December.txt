@@ -1,0 +1,24 @@
+From alexandre.fayolle at logilab.fr  Thu Dec  1 16:24:10 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Thu, 1 Dec 2005 16:24:10 +0100
+Subject: [Maay-dev] Maay 0.3.2
+Message-ID: <20051201152410.GA13141@crater.logilab.fr>
+
+A new release of Maay is available. This is a bugfix release which fixes
+some problems with filenames using characters which are not legal in the
+current filesystem encoding, which can happen when a partition from a
+foreign filesystem is mounted and indexed by Maay. 
+
+You can download it from https://developer.berlios.de/projects/maay/
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051201/9083f6ac/attachment.pgp>
+

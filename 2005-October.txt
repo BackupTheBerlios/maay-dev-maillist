@@ -1,0 +1,823 @@
+From alexandre.fayolle at logilab.fr  Wed Oct  5 14:32:30 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Wed, 5 Oct 2005 14:32:30 +0200
+Subject: [Maay-dev] Welcome
+Message-ID: <20051005123230.GA600@logilab.fr>
+
+Hi,
+
+I've set up this list so that we can discuss in a nice place not
+cluttered with svn commit messages.
+
+Maybe some day we'll set up a maay-users list, but for now this should
+be a good place for users to ask questions so I'll give the adress of
+this list in the various documents on maay.
+
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051005/02df5d5a/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Fri Oct  7 11:38:10 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Fri, 7 Oct 2005 11:38:10 +0200
+Subject: [Maay-dev] Windows installer for snapshot 2005-10-07 available
+Message-ID: <20051007093810.GA12978@logilab.fr>
+
+Hi,
+
+I've just uploaded the windows installer for snapshot 20051007.
+Download it from https://developer.berlios.de/projects/maay/
+
+
+Release Notes for snapshot 2005-10-07
+
+This release is a development snapshot, it is not as tested as an 
+official release, and is only provided as a convenience to our users. 
+Expect the application to crash.
+
+Known problems: the Microsoft Word document converter may not work on
+Windows.
+
+Refer to previous release notes below.
+
+-----------------------------------------------------------
+Release Notes for version 0.1.0
+
+See README.txt for installation and quick start instructions. 
+
+This release is alpha-level software. We support local indexation and
+search, and no P2P features are yet available.
+
+The windows installer will install and set up all the required
+dependencies (including mysql and twisted). It uses Inno Setup and
+Py2exe.
+
+
+Changelog:
+
+Maay-snapshot20051007 2005-10-07
+        * fixed a problem with db creation on windows
+        * fixed word converter PATH issue
+        * installer now offers to launche maay-server after installation
+
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051007/54e64dca/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Mon Oct 24 17:01:04 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Mon, 24 Oct 2005 17:01:04 +0200
+Subject: [Maay-dev] something to think about
+Message-ID: <20051024150104.GB4042@logilab.fr>
+
+While in a long-ish session playing with the indexer, I've got an
+exhaustion of the available sessions for mysql.
+
+This could hit us later, we'd better not forget that even if right now
+it's not high on the todo list.
+
+Aur?lien.
+
+
+From aurelien.campeas at logilab.fr  Tue Oct 25 09:57:48 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Tue, 25 Oct 2005 09:57:48 +0200
+Subject: [Maay-dev] dep update
+Message-ID: <20051025075748.GC3970@logilab.fr>
+
+As of the latest svn stuff, nevow version 0.5.0 is required.
+
+
+From aurelien.campeas at logilab.fr  Tue Oct 25 10:00:53 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Tue, 25 Oct 2005 10:00:53 +0200
+Subject: [Maay-dev] dep update
+In-Reply-To: <20051025075748.GC3970@logilab.fr>
+References: <20051025075748.GC3970@logilab.fr>
+Message-ID: <20051025080053.GD3970@logilab.fr>
+
+Note to Alexandre : this hint (nicely provided by Adrien while on
+vacation) solves all current difficulties on my side :)
+
+
+On Tue, Oct 25, 2005 at 09:57:48AM +0200, Aur?lien Camp?as wrote:
+> As of the latest svn stuff, nevow version 0.5.0 is required.
+> _______________________________________________
+> Maay-dev mailing list
+> Maay-dev at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-dev
+
+
+From alexandre.fayolle at logilab.fr  Thu Oct 27 08:20:43 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Thu, 27 Oct 2005 08:20:43 +0200
+Subject: [Maay-dev] Re: [Maay-svncheckins] r229 - trunk/maay
+In-Reply-To: <437de8500510261537m34f6b50evaaa9b5857feea07b@mail.gmail.com>
+References: <200510261221.j9QCLguo013160@sheep.berlios.de> <20051026171712.GA6814@logilab.fr> <437de8500510261537m34f6b50evaaa9b5857feea07b@mail.gmail.com>
+Message-ID: <20051027062043.GA32178@logilab.fr>
+
+Moving the discussion to the maay-dev mailing list.
+
+
+On Wed, Oct 26, 2005 at 06:37:52PM -0400, Adrien Di Mascio wrote:
+> On 10/26/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> > Sorry, but this reintroduces the bug. Probably because id(cred) will
+> > be different each time even if the content is the same. I'll look at a
+> > whay to preserve your cache and get rid of the leak anyway, if possible.
+> 
+> I see. I should have imagined that. I guess the easiest solution would
+> then be to directly use the (creds.username, creds.password) tuple
+> as the dictionary key instead of the credential instance.
+> 
+> But ... there is still the problem (If I understood correctly from the last
+> mails / checkins) that the connection to the database is not closed
+> when the querier is not used anymore, and that should be solved.
+> 
+> BTW, why (where) do we instantiate several queriers ? Should we
+> call "cnx.close()" in the Querier.__del__ method ?
+
+I may be mistaken, but this could be a side effect of twisted. I think
+this kind of behaviour is part of why the twisted framework makes a high
+use of class-level variables. (this is speculation on my side, which
+needs to be backed up with facts). 
+
+The other solution (less satisfactory imho, but easier to implement) is
+to systematically close the connection after each RPC call. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051027/04ac43b5/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Wed Oct 26 19:17:12 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Wed, 26 Oct 2005 19:17:12 +0200
+Subject: [Maay-dev] [Maay-svncheckins] r229 - trunk/maay
+In-Reply-To: <200510261221.j9QCLguo013160@sheep.berlios.de>
+References: <200510261221.j9QCLguo013160@sheep.berlios.de>
+Message-ID: <20051026171712.GA6814@logilab.fr>
+
+Sorry, but this reintroduces the bug. Probably because id(cred) will
+be different each time even if the content is the same. I'll look at a
+whay to preserve your cache and get rid of the leak anyway, if possible.
+
+
+On Wed, Oct 26, 2005 at 02:21:42PM +0200, Adrien Di Mascio at BerliOS wrote:
+> Author: adimasci
+> Date: 2005-10-26 14:21:23 +0200 (Wed, 26 Oct 2005)
+> New Revision: 229
+> 
+> Modified:
+>    trunk/maay/server.py
+> Log:
+> keep a cache of creds/queriers instead of keeping a single
+> querier in cache, because we don't want to provide the same
+> querier to 2 different users ! (Even if, for our current
+> use cases, it can't happen)
+> 
+> 
+> 
+> Modified: trunk/maay/server.py
+> ===================================================================
+> --- trunk/maay/server.py	2005-10-26 10:55:47 UTC (rev 228)
+> +++ trunk/maay/server.py	2005-10-26 12:21:23 UTC (rev 229)
+> @@ -401,18 +401,23 @@
+>          self.realm = realm
+>          self.dbhost = dbhost
+>          self.dbname = dbname
+> -        self.querier = None # reusing the same querier has some benefits :)
+> +	# Keeping a cache of queriers reusing the same has some benefits :)
+> +        self.querierCache = {}
+>      
+>      def requestAvatarId(self, creds):
+>          print "DBAuthChecker : checking credentials for DB access"
+>          try:
+> -            if not self.querier:
+> -                self.querier = MaayQuerier(host=self.dbhost, database=self.dbname,
+> -                                        user=creds.username, password=creds.password)
+> +	    try:
+> +		querier = self.querierCache[creds]
+> +	    except KeyError:
+> +		querier = MaayQuerier(host=self.dbhost, database=self.dbname,
+> +				      user=creds.username,
+> +				      password=creds.password)
+> +		self.querierCache[creds] = querier
+>          except MaayAuthenticationError:
+>              print "DBAuthChecker : Authentication Error"
+>              return failure.Failure(error.UnauthorizedLogin())
+> -        self.realm.createUserSession(creds.username, self.querier)
+> +        self.realm.createUserSession(creds.username, querier)
+>          return defer.succeed(creds.username)
+>  
+>  
+> 
+> _______________________________________________
+> Maay-svncheckins mailing list
+> Maay-svncheckins at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+_______________________________________________
+Maay-svncheckins mailing list
+Maay-svncheckins at lists.berlios.de
+http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+
+
+From adimasci at gmail.com  Thu Oct 27 00:37:52 2005
+From: adimasci at gmail.com (Adrien Di Mascio)
+Date: Wed, 26 Oct 2005 18:37:52 -0400
+Subject: [Maay-dev] [Maay-svncheckins] r229 - trunk/maay
+In-Reply-To: <20051026171712.GA6814@logilab.fr>
+References: <200510261221.j9QCLguo013160@sheep.berlios.de>
+	<20051026171712.GA6814@logilab.fr>
+Message-ID: <437de8500510261537m34f6b50evaaa9b5857feea07b@mail.gmail.com>
+
+On 10/26/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> Sorry, but this reintroduces the bug. Probably because id(cred) will
+> be different each time even if the content is the same. I'll look at a
+> whay to preserve your cache and get rid of the leak anyway, if possible.
+
+I see. I should have imagined that. I guess the easiest solution would
+then be to directly use the (creds.username, creds.password) tuple
+as the dictionary key instead of the credential instance.
+
+But ... there is still the problem (If I understood correctly from the last
+mails / checkins) that the connection to the database is not closed
+when the querier is not used anymore, and that should be solved.
+
+BTW, why (where) do we instantiate several queriers ? Should we
+call "cnx.close()" in the Querier.__del__ method ?
+
+Cheers,
+Adrien.
+_______________________________________________
+Maay-svncheckins mailing list
+Maay-svncheckins at lists.berlios.de
+http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+
+
+From alexandre.fayolle at logilab.fr  Thu Oct 27 08:50:52 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Thu, 27 Oct 2005 08:50:52 +0200
+Subject: [Maay-dev] nevow, windows  and debian
+Message-ID: <20051027065052.GE32178@logilab.fr>
+
+I read that nevow 0.5 is now required to run maay. 
+
+You will need to update the installed version on the windows machine to
+generate an Windows installer. The easiest way of doing this is to:
+
+ * uninstall the current nevow installation from the Windows software
+anagement program
+ * generate an installer on linux for windows (hint: python setup.py
+bdist_wininst)
+ * install the package on windows
+ * generate the Maay installer in the usual way
+
+
+Aur?lien or Adrien, please, file a bug report on the python-nevow Debian
+package asking for a release of a package for nevow-0.5 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051027/0f71966f/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Thu Oct 27 10:23:23 2005
+From: aurelien.campeas at logilab.fr (=?unknown-8bit?Q?Aur=E9lien_Camp=E9as?=)
+Date: Thu, 27 Oct 2005 10:23:23 +0200
+Subject: [Maay-dev] nevow, windows  and debian
+In-Reply-To: <20051027065052.GE32178@logilab.fr>
+References: <20051027065052.GE32178@logilab.fr>
+Message-ID: <20051027082323.GE1099@logilab.fr>
+
+On Thu, Oct 27, 2005 at 08:50:52AM +0200, Alexandre Fayolle wrote:
+> I read that nevow 0.5 is now required to run maay. 
+> 
+> You will need to update the installed version on the windows machine to
+> generate an Windows installer. The easiest way of doing this is to:
+> 
+>  * uninstall the current nevow installation from the Windows software
+> anagement program
+>  * generate an installer on linux for windows (hint: python setup.py
+> bdist_wininst)
+>  * install the package on windows
+>  * generate the Maay installer in the usual way
+> 
+> 
+> Aur?lien or Adrien, please, file a bug report on the python-nevow Debian
+> package asking for a release of a package for nevow-0.5 
+
+Adrien is on vacation ... tries to be.
+I will file the bug report. 
+
+A+
+
+
+From aurelien.campeas at logilab.fr  Thu Oct 27 12:57:08 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Thu, 27 Oct 2005 12:57:08 +0200
+Subject: [Maay-dev] Re: [Maay-svncheckins] r229 - trunk/maay
+In-Reply-To: <20051027062043.GA32178@logilab.fr>
+References: <200510261221.j9QCLguo013160@sheep.berlios.de> <20051026171712.GA6814@logilab.fr> <437de8500510261537m34f6b50evaaa9b5857feea07b@mail.gmail.com> <20051027062043.GA32178@logilab.fr>
+Message-ID: <20051027105708.GA3969@logilab.fr>
+
+On Thu, Oct 27, 2005 at 08:20:43AM +0200, Alexandre Fayolle wrote:
+> Moving the discussion to the maay-dev mailing list.
+> 
+> 
+> On Wed, Oct 26, 2005 at 06:37:52PM -0400, Adrien Di Mascio wrote:
+> > On 10/26/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> > > Sorry, but this reintroduces the bug. Probably because id(cred) will
+> > > be different each time even if the content is the same. I'll look at a
+> > > whay to preserve your cache and get rid of the leak anyway, if possible.
+> > 
+> > I see. I should have imagined that. I guess the easiest solution would
+> > then be to directly use the (creds.username, creds.password) tuple
+> > as the dictionary key instead of the credential instance.
+> > 
+> > But ... there is still the problem (If I understood correctly from the last
+> > mails / checkins) that the connection to the database is not closed
+> > when the querier is not used anymore, and that should be solved.
+> > 
+> > BTW, why (where) do we instantiate several queriers ? Should we
+> > call "cnx.close()" in the Querier.__del__ method ?
+> 
+> I may be mistaken, but this could be a side effect of twisted. I think
+> this kind of behaviour is part of why the twisted framework makes a high
+> use of class-level variables. (this is speculation on my side, which
+> needs to be backed up with facts). 
+
+I just checked what happens when one adds a self.cnx.close() in a
+__del__ method for queriers : mysql complains that we are closing an
+already closed exception.
+
+> 
+> The other solution (less satisfactory imho, but easier to implement) is
+> to systematically close the connection after each RPC call. 
+
+I think we might not need to go this far.
+
+A+
+Aur?lien.
+
+
+
+From aurelien.campeas at logilab.fr  Thu Oct 27 13:27:37 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Thu, 27 Oct 2005 13:27:37 +0200
+Subject: [Maay-dev] Re: [Maay-svncheckins] r229 - trunk/maay
+In-Reply-To: <20051027105708.GA3969@logilab.fr>
+References: <200510261221.j9QCLguo013160@sheep.berlios.de> <20051026171712.GA6814@logilab.fr> <437de8500510261537m34f6b50evaaa9b5857feea07b@mail.gmail.com> <20051027062043.GA32178@logilab.fr> <20051027105708.GA3969@logilab.fr>
+Message-ID: <20051027112737.GB3969@logilab.fr>
+
+On Thu, Oct 27, 2005 at 12:57:08PM +0200, Aur?lien Camp?as wrote:
+> On Thu, Oct 27, 2005 at 08:20:43AM +0200, Alexandre Fayolle wrote:
+> > Moving the discussion to the maay-dev mailing list.
+> > 
+> > 
+> > On Wed, Oct 26, 2005 at 06:37:52PM -0400, Adrien Di Mascio wrote:
+> > > On 10/26/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> > > > Sorry, but this reintroduces the bug. Probably because id(cred) will
+> > > > be different each time even if the content is the same. I'll look at a
+> > > > whay to preserve your cache and get rid of the leak anyway, if possible.
+> > > 
+> > > I see. I should have imagined that. I guess the easiest solution would
+> > > then be to directly use the (creds.username, creds.password) tuple
+> > > as the dictionary key instead of the credential instance.
+> > > 
+> > > But ... there is still the problem (If I understood correctly from the last
+> > > mails / checkins) that the connection to the database is not closed
+> > > when the querier is not used anymore, and that should be solved.
+> > > 
+> > > BTW, why (where) do we instantiate several queriers ? Should we
+> > > call "cnx.close()" in the Querier.__del__ method ?
+> > 
+> > I may be mistaken, but this could be a side effect of twisted. I think
+> > this kind of behaviour is part of why the twisted framework makes a high
+> > use of class-level variables. (this is speculation on my side, which
+> > needs to be backed up with facts). 
+> 
+> I just checked what happens when one adds a self.cnx.close() in a
+> __del__ method for queriers : mysql complains that we are closing an
+> already closed exception.
+
+Well, this happens *only* in the tests.
+
+Whatever, it should not be hard not to leak.
+
+
+From alexandre.fayolle at logilab.fr  Thu Oct 27 23:29:40 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Thu, 27 Oct 2005 23:29:40 +0200
+Subject: [Maay-dev] Coding standards on the project
+Message-ID: <20051027212940.GB13941@logilab.fr>
+
+Frederic,
+
+
+Python code blocks are indented with 4 spaces and nothing else,
+especially not tabs. Change the settings of your editor to ensure that
+spaces are inserted when you press tab in your text editor before your
+next commit.  
+
+Please try to insert unit tests for new functions that you add. Unit
+tests help us ensure that the existing behaviour of a function does not change
+when we refactor the code for better readability or performance, or to
+process a new case. They also give us some information about what cases
+you have thought of when you wrote the functions, which is helpful if
+there is a corner case that you have not thought of. 
+
+Thanks,
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051027/ce802b2e/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Fri Oct 28 11:11:25 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 28 Oct 2005 11:11:25 +0200
+Subject: [Maay-dev] Re: [Maay-svncheckins] r236 - trunk/maay
+In-Reply-To: <200510271312.j9RDCv7U020132@sheep.berlios.de>
+References: <200510271312.j9RDCv7U020132@sheep.berlios.de>
+Message-ID: <20051028091124.GA3954@logilab.fr>
+
+Hello Frederic,
+
+It's nice to have Maay report results in a more googleish way, but I
+see two shortcomings to your patches :
+
+- when the query only matches a document title it is useless (ok
+  that's not bad but we should get something like the old abstract)
+- the size of the excerpts seem to have shrinked a lot compared to
+  what we previously had, and the width of the excerpt zone is now too
+  small ...
+
+Cheers,
+Aur?lien.
+
+
+On Thu, Oct 27, 2005 at 03:12:57PM +0200, Fr?d?ric DANG NGOC at BerliOS wrote:
+> Author: dnf
+> Date: 2005-10-27 15:12:55 +0200 (Thu, 27 Oct 2005)
+> New Revision: 236
+> 
+> Modified:
+>    trunk/maay/texttool.py
+> Log:
+> Rewrite makeAbstract function.
+> 
+> 
+> Modified: trunk/maay/texttool.py
+> ===================================================================
+> --- trunk/maay/texttool.py	2005-10-27 12:39:42 UTC (rev 235)
+> +++ trunk/maay/texttool.py	2005-10-27 13:12:55 UTC (rev 236)
+> @@ -302,26 +302,76 @@
+>      return text.translate(table)
+>  del _table2
+>      
+> +def boldifyText(text, words):
+> +    rgx = re.compile('|'.join(words), re.I)
+> +    s = StringIO.StringIO()
+> +    lastStart = 0
+> +    for occurence in rgx.finditer(text):
+> +        wordFound = occurence.group(0)
+> +        start, end = occurence.start(), occurence.end()
+> +	s.write(text[lastStart:start])
+> +	s.write("<b>%s</b>" % wordFound)
+> +	lastStart = end
+>  
+> +    s.write(text[end:])
+> +    return s.getvalue()
+> +
+>  def makeAbstract(text, words):
+> -    """return the original text with HTML emphasis tags
+> -    around <words> occurences
+> -    XXX: this is a quick and dirty implementation
+> +    """return excerpts of the original text surrounding the word occurrences
+> +    XXX: this is a less quick and dirty implementation
+>      """
+> -    rgx = re.compile('|'.join(words), re.I)
+> +
+> +    # To build the abstract, we only display the first occurrence of each
+> +    # word in the text.
+> +    # Each occurrence is shown in an excerpt (approx 60 caracters).
+> +    # If two excerpts are close, we merge them into one.
+> +
+> +    # excerptPositions = [(word,position)]
+> +    excerptPositions = []
+> +
+>      text = untagText(text)
+> -    buf = []
+> -    size = 0
+> -    for occurence in rgx.finditer(text):
+> -        wordFound = occurence.group(0)
+> -        start, end = occurence.start(), occurence.end()
+> -        before = text[start-30:start-1]
+> -        after = text[end+1:end+30]
+> -        size += len(wordFound) + 60
+> -        buf.append('%s <b>%s</b> %s' % (before, wordFound, after))
+> -        if size >= 200:
+> -            break
+> -    else:
+> -        # case where we have less than 200 characters to display
+> +    text_length = len(text)
+> +
+> +    for word in words:
+> +        m = re.search(word, text, re.I)
+> +	if m:
+> +	        excerptPositions.append((word, m.start()))
+> +
+> +    if not excerptPositions:
+>          return text[:200]
+> -    return u' <b>[...]</b> '.join(buf)
+> +
+> +    # sort by position
+> +    excerptPositions.sort(lambda x, y: x[1] - y [1])
+> +
+> +    s = StringIO.StringIO()
+> +    start = -1
+> +    last_position = -100
+> +    last_word = 0
+> +
+> +    for word, position in excerptPositions:
+> +        if position - last_position < 30:
+> +            last_position = position
+> +	    last_word = word
+> +	    continue
+> +	    
+> +	if start !=-1:
+> +            end = min(last_position + 30 + len(last_word), text_length - 1)
+> +            while not text[end].isspace(): end -= 1
+> +            s.write(" <b>...</b>")
+> +            s.write(boldifyText(text[start:end], words))
+> +            print "repl = %s" % str('|'.join(words))
+> +
+> +        start = max(0, position - 30)
+> +        while not text[start].isspace(): start += 1
+> +
+> +        last_position = position
+> +        last_word = word
+> +
+> +    end = min(last_position + 30 + len(word), text_length - 1)
+> +    while not text[end].isspace(): end -= 1
+> +    s.write("<b>...</b>")
+> +    s.write(boldifyText(text[start:end], words))
+> +    s.write("<b>...</b>")
+> +
+> +    return u"%s" % s.getvalue()
+> +
+> 
+> _______________________________________________
+> Maay-svncheckins mailing list
+> Maay-svncheckins at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+From aurelien.campeas at logilab.fr  Fri Oct 28 11:37:07 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 28 Oct 2005 11:37:07 +0200
+Subject: [Maay-dev] MIN_WORD_LEN at two
+Message-ID: <20051028093706.GB3954@logilab.fr>
+
+Hello, 
+
+One question for maay devs :
+
+what's the rationale behind 
+
+WORD_MIN_LEN = 2
+
+in texttool ?
+
+If this is a way to not index words like 'a', good, but what about
+'the', 'il', 'le' ... ? Is this supposed to be replaced later with a
+word exclusion list ?
+
+
+A+
+Aur?lien
+
+
+From aurelien.campeas at logilab.fr  Fri Oct 28 11:53:06 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 28 Oct 2005 11:53:06 +0200
+Subject: [Maay-dev] bug remainder
+Message-ID: <20051028095305.GA4209@logilab.fr>
+
+Hello,
+
+This
+
+Requesting indexation of /home/auc/devel/maay/trunk/maay/test/data/utf8.pdf (utf8.txt)
+
+shows that the fixes to handle document titling with pdf docs is still wrong.
+
+Aur?lien.
+
+
+From frederic.dangngoc at gmail.com  Fri Oct 28 12:34:09 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Fri, 28 Oct 2005 12:34:09 +0200
+Subject: [Maay-dev] Re: [Maay-svncheckins] r236 - trunk/maay
+In-Reply-To: <20051028091124.GA3954@logilab.fr>
+References: <200510271312.j9RDCv7U020132@sheep.berlios.de>
+	 <20051028091124.GA3954@logilab.fr>
+Message-ID: <35cde7700510280334t7054f7a4lf688c6bef28d2a05@mail.gmail.com>
+
+Hi Aurelian,
+
+it's nice to have feedbacks.
+I will try to improve the makeAbstract function :
+- increase the excerpt size
+- decide the number of excerpt to display in one abstract (might depend
+on the number of words in the query), privilege excerpts which
+contains simultaneouly two words...
+- if the word is not in the document content (title, meta data) show
+only 60 firsts characters of the document
+- do not display [...] if the excerpt is at the beginning or at the
+end of the text
+- make the unit tests for the abstract function
+
+cheers,
+
+Frederic
+
+On 10/28/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> Hello Frederic,
+>
+> It's nice to have Maay report results in a more googleish way, but I
+> see two shortcomings to your patches :
+>
+> - when the query only matches a document title it is useless (ok
+>   that's not bad but we should get something like the old abstract)
+> - the size of the excerpts seem to have shrinked a lot compared to
+>   what we previously had, and the width of the excerpt zone is now too
+>   small ...
+>
+> Cheers,
+> Aur?lien.
+>
+>
+> On Thu, Oct 27, 2005 at 03:12:57PM +0200, Fr?d?ric DANG NGOC at BerliOS wrote:
+> > Author: dnf
+> > Date: 2005-10-27 15:12:55 +0200 (Thu, 27 Oct 2005)
+> > New Revision: 236
+> >
+> > Modified:
+> >    trunk/maay/texttool.py
+> > Log:
+> > Rewrite makeAbstract function.
+> >
+> >
+> > Modified: trunk/maay/texttool.py
+> > ===================================================================
+> > --- trunk/maay/texttool.py    2005-10-27 12:39:42 UTC (rev 235)
+> > +++ trunk/maay/texttool.py    2005-10-27 13:12:55 UTC (rev 236)
+> > @@ -302,26 +302,76 @@
+> >      return text.translate(table)
+> >  del _table2
+> >
+> > +def boldifyText(text, words):
+> > +    rgx = re.compile('|'.join(words), re.I)
+> > +    s = StringIO.StringIO()
+> > +    lastStart = 0
+> > +    for occurence in rgx.finditer(text):
+> > +        wordFound = occurence.group(0)
+> > +        start, end = occurence.start(), occurence.end()
+> > +     s.write(text[lastStart:start])
+> > +     s.write("<b>%s</b>" % wordFound)
+> > +     lastStart = end
+> >
+> > +    s.write(text[end:])
+> > +    return s.getvalue()
+> > +
+> >  def makeAbstract(text, words):
+> > -    """return the original text with HTML emphasis tags
+> > -    around <words> occurences
+> > -    XXX: this is a quick and dirty implementation
+> > +    """return excerpts of the original text surrounding the word occurrences
+> > +    XXX: this is a less quick and dirty implementation
+> >      """
+> > -    rgx = re.compile('|'.join(words), re.I)
+> > +
+> > +    # To build the abstract, we only display the first occurrence of each
+> > +    # word in the text.
+> > +    # Each occurrence is shown in an excerpt (approx 60 caracters).
+> > +    # If two excerpts are close, we merge them into one.
+> > +
+> > +    # excerptPositions = [(word,position)]
+> > +    excerptPositions = []
+> > +
+> >      text = untagText(text)
+> > -    buf = []
+> > -    size = 0
+> > -    for occurence in rgx.finditer(text):
+> > -        wordFound = occurence.group(0)
+> > -        start, end = occurence.start(), occurence.end()
+> > -        before = text[start-30:start-1]
+> > -        after = text[end+1:end+30]
+> > -        size += len(wordFound) + 60
+> > -        buf.append('%s <b>%s</b> %s' % (before, wordFound, after))
+> > -        if size >= 200:
+> > -            break
+> > -    else:
+> > -        # case where we have less than 200 characters to display
+> > +    text_length = len(text)
+> > +
+> > +    for word in words:
+> > +        m = re.search(word, text, re.I)
+> > +     if m:
+> > +             excerptPositions.append((word, m.start()))
+> > +
+> > +    if not excerptPositions:
+> >          return text[:200]
+> > -    return u' <b>[...]</b> '.join(buf)
+> > +
+> > +    # sort by position
+> > +    excerptPositions.sort(lambda x, y: x[1] - y [1])
+> > +
+> > +    s = StringIO.StringIO()
+> > +    start = -1
+> > +    last_position = -100
+> > +    last_word = 0
+> > +
+> > +    for word, position in excerptPositions:
+> > +        if position - last_position < 30:
+> > +            last_position = position
+> > +         last_word = word
+> > +         continue
+> > +
+> > +     if start !=-1:
+> > +            end = min(last_position + 30 + len(last_word), text_length - 1)
+> > +            while not text[end].isspace(): end -= 1
+> > +            s.write(" <b>...</b>")
+> > +            s.write(boldifyText(text[start:end], words))
+> > +            print "repl = %s" % str('|'.join(words))
+> > +
+> > +        start = max(0, position - 30)
+> > +        while not text[start].isspace(): start += 1
+> > +
+> > +        last_position = position
+> > +        last_word = word
+> > +
+> > +    end = min(last_position + 30 + len(word), text_length - 1)
+> > +    while not text[end].isspace(): end -= 1
+> > +    s.write("<b>...</b>")
+> > +    s.write(boldifyText(text[start:end], words))
+> > +    s.write("<b>...</b>")
+> > +
+> > +    return u"%s" % s.getvalue()
+> > +
+> >
+> > _______________________________________________
+> > Maay-svncheckins mailing list
+> > Maay-svncheckins at lists.berlios.de
+> > http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+>
+
+
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+

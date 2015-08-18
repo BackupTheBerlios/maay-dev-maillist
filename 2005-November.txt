@@ -1,0 +1,2278 @@
+From frederic.dangngoc at gmail.com  Thu Nov  3 16:29:30 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Thu, 3 Nov 2005 16:29:30 +0100
+Subject: [Maay-dev] new bug in indexer ?
+Message-ID: <35cde7700511030729y2559876o74bcf0f67d97b8a6@mail.gmail.com>
+
+Hi,
+
+I have just updated the maay source from the subversion repository
+and I have this error when launching the indexer. Any ideas ?
+
+Traceback (most recent call last):
+  File "indexer.py", line 326, in ?
+    run()
+  File "indexer.py", line 318, in run
+    indexer.start()
+  File "indexer.py", line 115, in start
+    existingFiles = self.runIndexer(isPrivate=True)
+  File "indexer.py", line 154, in runIndexer
+    state=state))
+  File "indexer.py", line 174, in indexDocument
+    self.serverProxy.indexDocument(self.cnxId, futureDoc)
+  File "/usr/lib/python2.4/xmlrpclib.py", line 1096, in __call__
+    return self.__send(self.__name, args)
+  File "/usr/lib/python2.4/xmlrpclib.py", line 1377, in __request
+    allow_none=self.__allow_none)
+  File "/usr/lib/python2.4/xmlrpclib.py", line 1029, in dumps
+    data = m.dumps(params)
+  File "/usr/lib/python2.4/xmlrpclib.py", line 603, in dumps
+    dump(v, write)
+  File "/usr/lib/python2.4/xmlrpclib.py", line 613, in __dump
+    raise TypeError, "cannot marshal %s objects" % type(value)
+TypeError: cannot marshal <class 'maay.dbentity.FutureDocument'> objects
+
+--
+Fr?d?ric Dang Ngoc
+
+
+From aurelien.campeas at logilab.fr  Thu Nov  3 18:39:42 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Thu, 3 Nov 2005 18:39:42 +0100
+Subject: [Maay-dev] new bug in indexer ?
+In-Reply-To: <35cde7700511030729y2559876o74bcf0f67d97b8a6@mail.gmail.com>
+References: <35cde7700511030729y2559876o74bcf0f67d97b8a6@mail.gmail.com>
+Message-ID: <20051103173941.GB1224@logilab.fr>
+
+On Thu, Nov 03, 2005 at 04:29:30PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Hi,
+> 
+> I have just updated the maay source from the subversion repository
+> and I have this error when launching the indexer. Any ideas ?
+
+Your later fix was right. I just deleted the db key stuff also.
+
+Question for the xmlrpclib gurus : does xmlrpclib not support
+serialization of new-style classes (or something else was happening ?) ?
+
+> 
+> Traceback (most recent call last):
+>   File "indexer.py", line 326, in ?
+>     run()
+>   File "indexer.py", line 318, in run
+>     indexer.start()
+>   File "indexer.py", line 115, in start
+>     existingFiles = self.runIndexer(isPrivate=True)
+>   File "indexer.py", line 154, in runIndexer
+>     state=state))
+>   File "indexer.py", line 174, in indexDocument
+>     self.serverProxy.indexDocument(self.cnxId, futureDoc)
+>   File "/usr/lib/python2.4/xmlrpclib.py", line 1096, in __call__
+>     return self.__send(self.__name, args)
+>   File "/usr/lib/python2.4/xmlrpclib.py", line 1377, in __request
+>     allow_none=self.__allow_none)
+>   File "/usr/lib/python2.4/xmlrpclib.py", line 1029, in dumps
+>     data = m.dumps(params)
+>   File "/usr/lib/python2.4/xmlrpclib.py", line 603, in dumps
+>     dump(v, write)
+>   File "/usr/lib/python2.4/xmlrpclib.py", line 613, in __dump
+>     raise TypeError, "cannot marshal %s objects" % type(value)
+> TypeError: cannot marshal <class 'maay.dbentity.FutureDocument'> objects
+> 
+> --
+> Fr?d?ric Dang Ngoc
+> _______________________________________________
+> Maay-dev mailing list
+> Maay-dev at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-dev
+
+
+From aurelien.campeas at logilab.fr  Fri Nov  4 09:52:21 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 4 Nov 2005 09:52:21 +0100
+Subject: [Maay-dev] new bug in indexer ?
+In-Reply-To: <20051103173941.GB1224@logilab.fr>
+References: <35cde7700511030729y2559876o74bcf0f67d97b8a6@mail.gmail.com> <20051103173941.GB1224@logilab.fr>
+Message-ID: <20051104085220.GA1219@logilab.fr>
+
+On Thu, Nov 03, 2005 at 06:39:42PM +0100, Aur?lien Camp?as wrote:
+> On Thu, Nov 03, 2005 at 04:29:30PM +0100, Fr?d?ric Dang Ngoc wrote:
+> > Hi,
+> > 
+> > I have just updated the maay source from the subversion repository
+> > and I have this error when launching the indexer. Any ideas ?
+> 
+> Your later fix was right. I just deleted the db key stuff also.
+> 
+> Question for the xmlrpclib gurus : does xmlrpclib not support
+> serialization of new-style classes (or something else was happening ?) ?
+
+It doesn't. That was the cause of the crash.
+
+> 
+> > 
+> > Traceback (most recent call last):
+> >   File "indexer.py", line 326, in ?
+> >     run()
+> >   File "indexer.py", line 318, in run
+> >     indexer.start()
+> >   File "indexer.py", line 115, in start
+> >     existingFiles = self.runIndexer(isPrivate=True)
+> >   File "indexer.py", line 154, in runIndexer
+> >     state=state))
+> >   File "indexer.py", line 174, in indexDocument
+> >     self.serverProxy.indexDocument(self.cnxId, futureDoc)
+> >   File "/usr/lib/python2.4/xmlrpclib.py", line 1096, in __call__
+> >     return self.__send(self.__name, args)
+> >   File "/usr/lib/python2.4/xmlrpclib.py", line 1377, in __request
+> >     allow_none=self.__allow_none)
+> >   File "/usr/lib/python2.4/xmlrpclib.py", line 1029, in dumps
+> >     data = m.dumps(params)
+> >   File "/usr/lib/python2.4/xmlrpclib.py", line 603, in dumps
+> >     dump(v, write)
+> >   File "/usr/lib/python2.4/xmlrpclib.py", line 613, in __dump
+> >     raise TypeError, "cannot marshal %s objects" % type(value)
+> > TypeError: cannot marshal <class 'maay.dbentity.FutureDocument'> objects
+> > 
+> > --
+> > Fr?d?ric Dang Ngoc
+> > _______________________________________________
+> > Maay-dev mailing list
+> > Maay-dev at lists.berlios.de
+> > http://lists.berlios.de/mailman/listinfo/maay-dev
+> _______________________________________________
+> Maay-dev mailing list
+> Maay-dev at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-dev
+> 
+
+
+From aurelien.campeas at logilab.fr  Fri Nov  4 11:06:11 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 4 Nov 2005 11:06:11 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+In-Reply-To: <200511031828.jA3ISvm9017681@sheep.berlios.de>
+References: <200511031828.jA3ISvm9017681@sheep.berlios.de>
+Message-ID: <20051104100611.GC1219@logilab.fr>
+
+On Thu, Nov 03, 2005 at 07:28:57PM +0100, Fr?d?ric DANG NGOC at BerliOS wrote:
+> Author: dnf
+> Date: 2005-11-03 19:28:55 +0100 (Thu, 03 Nov 2005)
+> New Revision: 297
+> 
+> Modified:
+>    trunk/maay/converter.py
+> Log:
+> Fix in CommandBasedConverter to catch the IOError raise by GZIP parser.
+
+Hello Fred,
+
+could you provide a sample .gz files triggering the IOError ?
+
+thanks,
+
+
+> 
+> 
+> 
+> Modified: trunk/maay/converter.py
+> ===================================================================
+> --- trunk/maay/converter.py	2005-11-03 18:25:18 UTC (rev 296)
+> +++ trunk/maay/converter.py	2005-11-03 18:28:55 UTC (rev 297)
+> @@ -175,8 +175,11 @@
+>          try:
+>              if errcode == 0: # OK
+>                  parser = self.getParser()
+> -                return parser.parseFile(outputFile, osp.basename(filepath),
+> +                try:
+> +                    return parser.parseFile(outputFile, osp.basename(filepath),
+>                                          self.OUTPUT_ENCODING)
+> +                except IOError:
+> +                    raise IndexationFailure('Unable to index %r' % filepath)
+>              else:
+>                  raise IndexationFailure('Unable to index %r' % filepath)
+>          finally:
+> 
+> _______________________________________________
+> Maay-svncheckins mailing list
+> Maay-svncheckins at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+From aurelien.campeas at logilab.fr  Fri Nov  4 11:10:13 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 4 Nov 2005 11:10:13 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r297 - trunk/maay
+In-Reply-To: <20051104100611.GC1219@logilab.fr>
+References: <200511031828.jA3ISvm9017681@sheep.berlios.de> <20051104100611.GC1219@logilab.fr>
+Message-ID: <20051104101012.GD1219@logilab.fr>
+
+On Fri, Nov 04, 2005 at 11:06:11AM +0100, Aur?lien Camp?as wrote:
+> On Thu, Nov 03, 2005 at 07:28:57PM +0100, Fr?d?ric DANG NGOC at BerliOS wrote:
+> > Author: dnf
+> > Date: 2005-11-03 19:28:55 +0100 (Thu, 03 Nov 2005)
+> > New Revision: 297
+> > 
+> > Modified:
+> >    trunk/maay/converter.py
+> > Log:
+> > Fix in CommandBasedConverter to catch the IOError raise by GZIP parser.
+> 
+> Hello Fred,
+> 
+> could you provide a sample .gz files triggering the IOError ?
+> 
+> thanks,
+> 
+
+
+sorry I just made one
+(I'm quite dumb today ...)
+
+
+From Adrien.DiMascio at logilab.fr  Mon Nov  7 09:45:01 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Mon, 7 Nov 2005 09:45:01 +0100
+Subject: [Maay-dev] MIN_WORD_LEN at two
+In-Reply-To: <20051028093706.GB3954@logilab.fr>
+References: <20051028093706.GB3954@logilab.fr>
+Message-ID: <20051107084501.GA3916@logilab.fr>
+
+Hi,
+
+On Fri, Oct 28, 2005 at 11:37:07AM +0200, Aur?lien Camp?as wrote:
+ 
+> what's the rationale behind 
+> 
+> WORD_MIN_LEN = 2
+> 
+> in texttool ?
+
+The idea, taken from the original code I guess, was to provide a
+trivial way to skip "uninteresting/noisy" words like
+pronouns. (technical note : it's used in a regexp to count number of
+letters in a word)
+
+
+It is meant to provide a better solution in the future, but this is
+not a priority.
+
+Cheers,
+Adrien.
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051107/7cc60812/attachment.pgp>
+
+From adimasci at gmail.com  Mon Nov  7 23:30:46 2005
+From: adimasci at gmail.com (Adrien Di Mascio)
+Date: Mon, 7 Nov 2005 23:30:46 +0100
+Subject: [Maay-dev] Results Page autoupdate
+Message-ID: <437de8500511071430v27220b15nca94bb8844bae9f2@mail.gmail.com>
+
+Hi there,
+
+I've attached the nearly minimal example I came up with, using
+nevow/livepage
+(athena), to provide a clean auto-refresh. There is no http-equiv or timer
+in the
+HTML source, it's the server itself who decides when to update the web page.
+I post my idea here to have feedback, and also to show the basics, just in
+case
+I don't have time to implement it myself :-).
+
+I still cannot make it work directly in Maay, but I guess we're not that far
+from it. The idea would be to add a callback to each distributed query
+result that would in turn use "callRemote" (see the attached example) to
+force
+the web page to update.
+
+Something like (need to be adapted to match the Maay P2P API):
+
+for peer in listOfPeers:
+p = Proxy(peer.getRpcUrl())
+d = p.callRemote('distributedQuery', query)
+d.addCallback(self.updateWebPage)
+# ...
+def updateWebPage(self, peerResults):
+self.results = merge(self.results, peerResults)
+# --> Here is the web page update request (see the example) <--
+self.callRemote('replaceResults', htmlize(self.results))
+
+Any suggestions ?
+
+Cheers,
+Adrien.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051107/2750e0a9/attachment.html>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: foo.xml
+Type: text/xml
+Size: 740 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051107/2750e0a9/attachment.xml>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: foo.py
+Type: application/octet-stream
+Size: 800 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051107/2750e0a9/attachment.obj>
+
+From frederic.dangngoc at gmail.com  Tue Nov  8 10:26:57 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Tue, 8 Nov 2005 10:26:57 +0100
+Subject: [Maay-dev] Another task in the TODO list
+Message-ID: <35cde7700511080126l615bd16fha3ba797389037c50@mail.gmail.com>
+
+Hi,
+
+we forget to discuss yesterday about the indexer.
+In the web interface, we can display a button to start the indexer (at
+least, a os.system(maay_indexer) will do)).
+So it would be easy to show to the audience that if we add/delete a file in the
+file repository that the modification has been taken into account in
+the results.
+
+I am currently trying to run maay from sources on windows (to update some things
+in the auto-installer).
+
+Cheers,
+
+Frederic
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+
+From frederic.dangngoc at gmail.com  Tue Nov  8 16:04:27 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Tue, 8 Nov 2005 16:04:27 +0100
+Subject: [Maay-dev] maay under windows
+Message-ID: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+
+Hi,
+
+I am trying to generate the executable for maay under windows.
+If I run the server.py using the python interpreter, it works.
+But if I launch setup.py to generate the executable then run
+maay_server.exe, I have
+this error :
+Traceback (most recent call last):
+  File "server.py", line 36, in ?
+  File "twisted\web\server.pyc", line 39, in ?
+  File "twisted\web\http.pyc", line 382, in ?
+  File "zope\interface\advice.pyc", line 132, in advise
+  File "zope\interface\declarations.pyc", line 488, in _implements_advice
+  File "zope\interface\declarations.pyc", line 465, in classImplements
+  File "zope\interface\declarations.pyc", line 1372, in _normalizeargs
+  File "zope\interface\declarations.pyc", line 1371, in _normalizeargs
+TypeError: Error when calling the metaclass bases
+    iteration over non-sequence
+
+any ideas ?
+
+The list of modules that I have installed are presented on the page :
+http://maay.netofpeers.net/wiki/index.php/Software_Requirements_Under_Windows
+
+Thanks,
+
+Fr?d?ric
+
+
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+
+From frederic.dangngoc at gmail.com  Tue Nov  8 17:18:57 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Tue, 8 Nov 2005 17:18:57 +0100
+Subject: [Maay-dev] Re: maay under windows
+In-Reply-To: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+Message-ID: <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com>
+
+I do not succeed to fix the error.
+What versions of python, twisted and zope do you use to generate the
+windows executable ?
+
+Thanks,
+
+Fr?d?ric
+
+On 11/8/05, Fr?d?ric Dang Ngoc <frederic.dangngoc at gmail.com> wrote:
+> Hi,
+>
+> I am trying to generate the executable for maay under windows.
+> If I run the server.py using the python interpreter, it works.
+> But if I launch setup.py to generate the executable then run
+> maay_server.exe, I have
+> this error :
+> Traceback (most recent call last):
+>   File "server.py", line 36, in ?
+>   File "twisted\web\server.pyc", line 39, in ?
+>   File "twisted\web\http.pyc", line 382, in ?
+>   File "zope\interface\advice.pyc", line 132, in advise
+>   File "zope\interface\declarations.pyc", line 488, in _implements_advice
+>   File "zope\interface\declarations.pyc", line 465, in classImplements
+>   File "zope\interface\declarations.pyc", line 1372, in _normalizeargs
+>   File "zope\interface\declarations.pyc", line 1371, in _normalizeargs
+> TypeError: Error when calling the metaclass bases
+>     iteration over non-sequence
+>
+> any ideas ?
+>
+> The list of modules that I have installed are presented on the page :
+> http://maay.netofpeers.net/wiki/index.php/Software_Requirements_Under_Windows
+>
+> Thanks,
+>
+> Fr?d?ric
+>
+>
+> --
+> Fr?d?ric Dang Ngoc
+> France T?l?com Division R&D / LRI
+> 38-40, rue du G?n?ral Leclerc
+> 92130 Issy-Les-Moulineaux
+>
+
+
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+
+From aurelien.campeas at logilab.fr  Tue Nov  8 17:25:08 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Tue, 8 Nov 2005 17:25:08 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r340 - trunk/maay
+In-Reply-To: <200511081429.jA8ETWjt029903@sheep.berlios.de>
+References: <200511081429.jA8ETWjt029903@sheep.berlios.de>
+Message-ID: <20051108162508.GA3960@logilab.fr>
+
+Note below ...
+
+On Tue, Nov 08, 2005 at 03:29:32PM +0100, Alexandre Fayolle at BerliOS wrote:
+> Author: afayolle
+> Date: 2005-11-08 15:29:31 +0100 (Tue, 08 Nov 2005)
+> New Revision: 340
+> 
+> Modified:
+>    trunk/maay/image.py
+> Log:
+> fixed thumbnail dir permissions
+> 
+> Modified: trunk/maay/image.py
+> ===================================================================
+> --- trunk/maay/image.py	2005-11-08 14:04:56 UTC (rev 339)
+> +++ trunk/maay/image.py	2005-11-08 14:29:31 UTC (rev 340)
+> @@ -50,8 +50,7 @@
+>                          self.get('thumbnails-dir'))
+>          if not os.access(path, os.W_OK):
+>              try:
+> -                os.makedirs(path, os.W_OK)
+> -                os.chmod(path, stat.S_IRWXG)
+> +                os.makedirs(path, stat.S_IRWXU)
+
+That's the permission I had initially played with but for some reason
+it would not work (if i remember well). Now it was probably an
+artifact of previously unworking code.
+
+>              except Exception, e:
+>                  raise NoThumbnailsDir("Impossible to access or create %s. "
+>                                        "Cause : %e" % (path, e))
+> 
+> _______________________________________________
+> Maay-svncheckins mailing list
+> Maay-svncheckins at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+From alexandre.fayolle at logilab.fr  Tue Nov  8 18:58:29 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Tue, 8 Nov 2005 18:58:29 +0100
+Subject: [Maay-dev] maay under windows
+In-Reply-To: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+Message-ID: <20051108175829.GM29185@crater.logilab.fr>
+
+On Tue, Nov 08, 2005 at 04:04:27PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Hi,
+> 
+> I am trying to generate the executable for maay under windows.
+> If I run the server.py using the python interpreter, it works.
+> But if I launch setup.py to generate the executable then run
+> maay_server.exe, I have
+> this error :
+> Traceback (most recent call last):
+>   File "server.py", line 36, in ?
+>   File "twisted\web\server.pyc", line 39, in ?
+>   File "twisted\web\http.pyc", line 382, in ?
+>   File "zope\interface\advice.pyc", line 132, in advise
+>   File "zope\interface\declarations.pyc", line 488, in _implements_advice
+>   File "zope\interface\declarations.pyc", line 465, in classImplements
+>   File "zope\interface\declarations.pyc", line 1372, in _normalizeargs
+>   File "zope\interface\declarations.pyc", line 1371, in _normalizeargs
+> TypeError: Error when calling the metaclass bases
+>     iteration over non-sequence
+> 
+> any ideas ?
+
+No idea at all. 
+
+OTOH, I've never tried to launch the program directly. I always
+installed it first using inno setup before launching. This is because
+some of the paths are coded with the layout of the installed program,
+and not the layout of the compilation directory structure. But this
+should not cause the kind of problems you mention. 
+
+> 
+> The list of modules that I have installed are presented on the page :
+> http://maay.netofpeers.net/wiki/index.php/Software_Requirements_Under_Windows
+
+It looks fine to me. I'll give it a closer look tomorow morning.  
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051108/8b86079e/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Tue Nov  8 19:03:19 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Tue, 8 Nov 2005 19:03:19 +0100
+Subject: [Maay-dev] maay under windows
+In-Reply-To: <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com> <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com>
+Message-ID: <20051108180318.GN29185@crater.logilab.fr>
+
+On Tue, Nov 08, 2005 at 05:18:57PM +0100, Fr?d?ric Dang Ngoc wrote:
+> I do not succeed to fix the error.
+> What versions of python, twisted and zope do you use to generate the
+> windows executable ?
+
+Last time I tried, it was nevow 0.4.1 and twisted 0.5.0 (which included
+the zope.interface module).
+
+I notice that the wiki page does not mention mxDateTime [1] which is a
+dependency of python-mysqldb. Is it installed on your machine ?
+
+Are you sure that all the dependencies are installed for the right
+version of the python interpreter ? Things can be tricky under Windows
+if you have several versions of the Python interpreter installed. 
+
+[1] http://www.egenix.com/files/python/mxDateTime.html 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051108/64897912/attachment.pgp>
+
+From Adrien.DiMascio at logilab.fr  Wed Nov  9 08:21:08 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Wed, 9 Nov 2005 08:21:08 +0100
+Subject: [Maay-dev] maay under windows
+In-Reply-To: <20051108180318.GN29185@crater.logilab.fr>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com> <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com> <20051108180318.GN29185@crater.logilab.fr>
+Message-ID: <20051109072108.GA3880@logilab.fr>
+
+Hi,
+
+On Tue, Nov 08, 2005 at 07:03:19PM +0100, Alexandre Fayolle wrote:
+> On Tue, Nov 08, 2005 at 05:18:57PM +0100, Fr?d?ric Dang Ngoc wrote:
+> > I do not succeed to fix the error.
+> > What versions of python, twisted and zope do you use to generate the
+> > windows executable ?
+> 
+> Last time I tried, it was nevow 0.4.1 and twisted 0.5.0 (which included
+> the zope.interface module).
+
+I guess you mean nevow 0.5.0 and twisted 2.0.1.
+Please also note that it might be possible that the next version of
+Maay will require the 0.6.0 version of nevow.
+
+Cheers,
+Adrien.
+
+
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051109/7a8faa76/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Wed Nov  9 09:03:44 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Wed, 9 Nov 2005 09:03:44 +0100
+Subject: [Maay-dev] launching the indexer from a web page
+Message-ID: <20051109080344.GF26897@crater.logilab.fr>
+
+Hi Fr?d?ric,
+
+We have taken great care and efforts so far in the code base to avoid
+using threads as much as possible, and to make sure that the indexer
+runs in a separate memory space from the node. This is because of some
+shortcomings in the Python threading model related to the global
+interpreter lock, which can lead to degraded performances in some cases. 
+
+Could you please change the code that launches the indexer so that it
+will run in a separate process, instead of a thread in the same process?
+
+Thanks.
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051109/2844243c/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Wed Nov  9 19:04:04 2005
+From: alexandre.fayolle at logilab.fr (alexandre.fayolle at logilab.fr)
+Date: Wed, 9 Nov 2005 19:04:04 +0100
+Subject: [Maay-dev] adresse du serveur de =?iso-8859-1?B?cHLp?=
+ =?iso-8859-1?Q?sence_par_d=E9faut?=
+Message-ID: <20051109180404.GA6795@jenkins.fayauffre.org>
+
+Joaquin, Fr?d?ric,
+
+In order to complete the configuration of Maay on Windows, I need to
+know the IP address or the network name of the machine on which you plan
+to run the presence server. 
+
+Thanks for providing this information when you have it.
+
+-- 
+Alexandre Fayolle
+
+
+
+From alexandre.fayolle at logilab.fr  Thu Nov 10 15:51:01 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Thu, 10 Nov 2005 15:51:01 +0100
+Subject: [Maay-dev] incompatible changes in revision 408
+Message-ID: <20051110145100.GC30883@crater.logilab.fr>
+
+Revision 408 introduced a couple of incompatible changes:
+
+ * the webapp.ini configuration file is now called node.ini
+ * in that file, the registration-host and registration-port parameters
+have been renamed to presence-host and presence-port
+
+Please update your configurations accordingly. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051110/f66d7464/attachment.pgp>
+
+From frederic.dangngoc at gmail.com  Mon Nov 14 12:26:12 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Mon, 14 Nov 2005 12:26:12 +0100
+Subject: [Maay-dev] maay under windows
+In-Reply-To: <20051109072108.GA3880@logilab.fr>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com>
+	 <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com>
+	 <20051108180318.GN29185@crater.logilab.fr>
+	 <20051109072108.GA3880@logilab.fr>
+Message-ID: <35cde7700511140326n52b1afedve0f77a07ac1e6dd3@mail.gmail.com>
+
+Thanks you for your answers.
+
+I install maay on another computer and it works.
+I don't know what's going wrong with the other computer...
+
+I suceed in generating the auto-installer and make Maay work but I get some
+problems. In the following, the problems, and the (dirty) solutions
+that I use to solve them :
+
+- the method dbApiMod.connect method (called in querier.py) does not support the
+parameter unicode=true. This does not work using the latest debian
+twisted package
+and  on Windows using packages on their website (v2.0.1).
+dirty solution : remove the parameter unicode = true ?
+
+- When Maay is launched as a service (maay.exe), it raises this exception :
+The instance's SvcRun() method failed
+  File "win32serviceutil.pyc", line 743, in SvcRun
+  File "maayservice.pyc", line 44, in SvcDoRun
+  File "maay\node.pyc", line 268, in run
+  File "twisted\internet\posixbase.pyc", line 198, in run
+  File "twisted\internet\posixbase.pyc", line 194, in startRunning
+  File "twisted\internet\posixbase.pyc", line 169, in _handleSignals
+exceptions.ValueError: signal only works in main thread
+And the service is not started.
+
+dirty solution : I see on the web that one solution is to call the
+reactor.run method using the installSignalHandlers parameter set to 0
+:
+reactor.run(installSignalHandlers=0)
+
+Frederic
+
+
+From alexandre.fayolle at logilab.fr  Mon Nov 14 13:17:09 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Mon, 14 Nov 2005 13:17:09 +0100
+Subject: [Maay-dev] maay under windows
+In-Reply-To: <35cde7700511140326n52b1afedve0f77a07ac1e6dd3@mail.gmail.com>
+References: <35cde7700511080704m15c995c1l72f4042ac2293524@mail.gmail.com> <35cde7700511080818s6f856d9bsa9d0956d4613e116@mail.gmail.com> <20051108180318.GN29185@crater.logilab.fr> <20051109072108.GA3880@logilab.fr> <35cde7700511140326n52b1afedve0f77a07ac1e6dd3@mail.gmail.com>
+Message-ID: <20051114121709.GC21626@crater.logilab.fr>
+
+On Mon, Nov 14, 2005 at 12:26:12PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Thanks you for your answers.
+> 
+> I install maay on another computer and it works.
+> I don't know what's going wrong with the other computer...
+> 
+> I suceed in generating the auto-installer and make Maay work but I get some
+> problems. In the following, the problems, and the (dirty) solutions
+> that I use to solve them :
+> 
+> - the method dbApiMod.connect method (called in querier.py) does not support the
+> parameter unicode=true. This does not work using the latest debian
+> twisted package
+> and  on Windows using packages on their website (v2.0.1).
+> dirty solution : remove the parameter unicode = true ?
+
+Please do not do that !
+
+We are using a development version of logilab.common which we have
+updated to handle unicode on mysql databases. Removing the unicode=true
+parameter will result in crashes. I'm attaching the current version of
+the patched file. Just copy it over the existing file on your windows
+box. 
+
+> 
+> - When Maay is launched as a service (maay.exe), it raises this exception :
+> The instance's SvcRun() method failed
+>   File "win32serviceutil.pyc", line 743, in SvcRun
+>   File "maayservice.pyc", line 44, in SvcDoRun
+>   File "maay\node.pyc", line 268, in run
+>   File "twisted\internet\posixbase.pyc", line 198, in run
+>   File "twisted\internet\posixbase.pyc", line 194, in startRunning
+>   File "twisted\internet\posixbase.pyc", line 169, in _handleSignals
+> exceptions.ValueError: signal only works in main thread
+> And the service is not started.
+> 
+> dirty solution : I see on the web that one solution is to call the
+> reactor.run method using the installSignalHandlers parameter set to 0
+> :
+> reactor.run(installSignalHandlers=0)
+
+Can you commit this change to the subversion manager ?
+
+We have spent a lot of time getting the core functionalities to work, and less
+on the windows Service aspects. 
+
+Thanks. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: db.py
+Type: text/x-python
+Size: 15355 bytes
+Desc: not available
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.py>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051114/dd34894c/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Tue Nov 15 20:48:52 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Tue, 15 Nov 2005 20:48:52 +0100
+Subject: [Maay-dev] [ANN] Maay-0.2.0
+Message-ID: <20051115194852.GB12742@crater.logilab.fr>
+
+Maay 0.20 is fresh out. 
+
+
+This is a beta release which needs some testing. Please give it a try
+and give us some feedback on the maay-dev mailing list.
+
+Everything is available from http://developer.berlios.de/projects/maay/
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051115/13752b2a/attachment.pgp>
+
+From frederic.dangngoc at gmail.com  Wed Nov 16 15:46:49 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Wed, 16 Nov 2005 15:46:49 +0100
+Subject: [Maay-dev] download bug ?
+Message-ID: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com>
+
+Hi,
+
+Just to quickly know if the problem come from my side or if a new bug
+has appeared.
+Do you have some problems when downloading distant files ?
+
+After twenty seconds, the browser displays the page :
+[...]
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>Page not found !</title>
+    <link href="/maaycss" type="text/css" rel="stylesheet" />
+    <link href="/images/maay.ico" rel="shortcut icon" />
+  </head>
+  <body>
+
+    <h3 class="error">Error while downloading file: test.txt</h3>
+    <a href="/">Maay's main search page</a>
+    </body>
+</html>
+[...]
+
+Thanks,
+
+Fr?d?ric
+
+
+From aurelien.campeas at logilab.fr  Wed Nov 16 15:52:48 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Wed, 16 Nov 2005 15:52:48 +0100
+Subject: [Maay-dev] download bug ?
+In-Reply-To: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com>
+References: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com>
+Message-ID: <20051116145248.GA2346@logilab.fr>
+
+Hi Frederic,
+
+Here we have no problem downloading various kinds of files, both on
+windows and linux.
+
+Can you provide the tail of the node logs (just after you od the
+download) ?
+
+On Wed, Nov 16, 2005 at 03:46:49PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Hi,
+> 
+> Just to quickly know if the problem come from my side or if a new bug
+> has appeared.
+> Do you have some problems when downloading distant files ?
+> 
+> After twenty seconds, the browser displays the page :
+> [...]
+> <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+>   <head>
+>     <title>Page not found !</title>
+>     <link href="/maaycss" type="text/css" rel="stylesheet" />
+>     <link href="/images/maay.ico" rel="shortcut icon" />
+>   </head>
+>   <body>
+> 
+>     <h3 class="error">Error while downloading file: test.txt</h3>
+>     <a href="/">Maay's main search page</a>
+>     </body>
+> </html>
+> [...]
+> 
+> Thanks,
+> 
+> Fr?d?ric
+> _______________________________________________
+> Maay-dev mailing list
+> Maay-dev at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-dev
+
+
+From frederic.dangngoc at gmail.com  Wed Nov 16 16:40:40 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Wed, 16 Nov 2005 16:40:40 +0100
+Subject: [Maay-dev] download bug ?
+In-Reply-To: <20051116145248.GA2346@logilab.fr>
+References: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com>
+	 <20051116145248.GA2346@logilab.fr>
+Message-ID: <35cde7700511160740h6e6a26f3h218eed535cb708d8@mail.gmail.com>
+
+In fact, it's quite strange. There are only logs from
+the downloader side. Look like the provider is not contacted... :
+
+2005/11/16 16:38 CET [HTTPChannel,34,127.0.0.1] Disconnected old
+LivePage '432b168227656f16f35be29d2294e429'
+2005/11/16 16:38 CET [HTTPChannel,35,127.0.0.1] SearchForm distantfile
+2005/11/16 16:38 CET [HTTPChannel,35,127.0.0.1] Starting factory
+<twisted.web.xmlrpc.QueryFactory instance at 0xb6a782ac>
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] *** livepage id =
+432b168227656f16f35be29d2294e429
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] Building livepage !
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] 127.0.0.1 - -
+[16/Nov/2005:15:38:55 +0000] "GET
+/search/transport?action=noop&args=%5B%5D HTTP/1.1" 404 1525 "-"
+"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.8) Gecko/20050517
+Firefox/1.0.4 (Debian package 1.0.4-2)"
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] *** livepage id =
+432b168227656f16f35be29d2294e429
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] Building livepage !
+2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] 127.0.0.1 - -
+[16/Nov/2005:15:38:55 +0000] "GET
+/search/transport?action=noop&args=%5B%5D HTTP/1.1" 404 1525 "-"
+"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.8) Gecko/20050517
+Firefox/1.0.4 (Debian package 1.0.4-2)"
+
+Fr?d?ric
+
+
+On 11/16/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> Hi Frederic,
+>
+> Here we have no problem downloading various kinds of files, both on
+> windows and linux.
+>
+> Can you provide the tail of the node logs (just after you od the
+> download) ?
+>
+> On Wed, Nov 16, 2005 at 03:46:49PM +0100, Fr?d?ric Dang Ngoc wrote:
+> > Hi,
+> >
+> > Just to quickly know if the problem come from my side or if a new bug
+> > has appeared.
+> > Do you have some problems when downloading distant files ?
+> >
+> > After twenty seconds, the browser displays the page :
+> > [...]
+> > <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+> >   <head>
+> >     <title>Page not found !</title>
+> >     <link href="/maaycss" type="text/css" rel="stylesheet" />
+> >     <link href="/images/maay.ico" rel="shortcut icon" />
+> >   </head>
+> >   <body>
+> >
+> >     <h3 class="error">Error while downloading file: test.txt</h3>
+> >     <a href="/">Maay's main search page</a>
+> >     </body>
+> > </html>
+> > [...]
+> >
+> > Thanks,
+> >
+> > Fr?d?ric
+> > _______________________________________________
+> > Maay-dev mailing list
+> > Maay-dev at lists.berlios.de
+> > http://lists.berlios.de/mailman/listinfo/maay-dev
+>
+
+
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+
+From frederic.dangngoc at gmail.com  Wed Nov 16 16:50:19 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Wed, 16 Nov 2005 16:50:19 +0100
+Subject: [Maay-dev] download bug ?
+In-Reply-To: <35cde7700511160740h6e6a26f3h218eed535cb708d8@mail.gmail.com>
+References: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com>
+	 <20051116145248.GA2346@logilab.fr>
+	 <35cde7700511160740h6e6a26f3h218eed535cb708d8@mail.gmail.com>
+Message-ID: <35cde7700511160750i73f2a8edt1175300ee662fa48@mail.gmail.com>
+
+Oups, sorry. The problem comes from a bad /etc/hosts on my computer.
+
+The download works fine.
+
+Thanks,
+
+Fr?d?ric
+
+On 11/16/05, Fr?d?ric Dang Ngoc <frederic.dangngoc at gmail.com> wrote:
+> In fact, it's quite strange. There are only logs from
+> the downloader side. Look like the provider is not contacted... :
+>
+> 2005/11/16 16:38 CET [HTTPChannel,34,127.0.0.1] Disconnected old
+> LivePage '432b168227656f16f35be29d2294e429'
+> 2005/11/16 16:38 CET [HTTPChannel,35,127.0.0.1] SearchForm distantfile
+> 2005/11/16 16:38 CET [HTTPChannel,35,127.0.0.1] Starting factory
+> <twisted.web.xmlrpc.QueryFactory instance at 0xb6a782ac>
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] *** livepage id =
+> 432b168227656f16f35be29d2294e429
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] Building livepage !
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] 127.0.0.1 - -
+> [16/Nov/2005:15:38:55 +0000] "GET
+> /search/transport?action=noop&args=%5B%5D HTTP/1.1" 404 1525 "-"
+> "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.8) Gecko/20050517
+> Firefox/1.0.4 (Debian package 1.0.4-2)"
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] *** livepage id =
+> 432b168227656f16f35be29d2294e429
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] Building livepage !
+> 2005/11/16 16:38 CET [HTTPChannel,36,127.0.0.1] 127.0.0.1 - -
+> [16/Nov/2005:15:38:55 +0000] "GET
+> /search/transport?action=noop&args=%5B%5D HTTP/1.1" 404 1525 "-"
+> "Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.8) Gecko/20050517
+> Firefox/1.0.4 (Debian package 1.0.4-2)"
+>
+> Fr?d?ric
+>
+>
+> On 11/16/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> > Hi Frederic,
+> >
+> > Here we have no problem downloading various kinds of files, both on
+> > windows and linux.
+> >
+> > Can you provide the tail of the node logs (just after you od the
+> > download) ?
+> >
+> > On Wed, Nov 16, 2005 at 03:46:49PM +0100, Fr?d?ric Dang Ngoc wrote:
+> > > Hi,
+> > >
+> > > Just to quickly know if the problem come from my side or if a new bug
+> > > has appeared.
+> > > Do you have some problems when downloading distant files ?
+> > >
+> > > After twenty seconds, the browser displays the page :
+> > > [...]
+> > > <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+> > >   <head>
+> > >     <title>Page not found !</title>
+> > >     <link href="/maaycss" type="text/css" rel="stylesheet" />
+> > >     <link href="/images/maay.ico" rel="shortcut icon" />
+> > >   </head>
+> > >   <body>
+> > >
+> > >     <h3 class="error">Error while downloading file: test.txt</h3>
+> > >     <a href="/">Maay's main search page</a>
+> > >     </body>
+> > > </html>
+> > > [...]
+> > >
+> > > Thanks,
+> > >
+> > > Fr?d?ric
+> > > _______________________________________________
+> > > Maay-dev mailing list
+> > > Maay-dev at lists.berlios.de
+> > > http://lists.berlios.de/mailman/listinfo/maay-dev
+> >
+>
+>
+> --
+> Fr?d?ric Dang Ngoc
+> France T?l?com Division R&D / LRI
+> 38-40, rue du G?n?ral Leclerc
+> 92130 Issy-Les-Moulineaux
+>
+
+
+--
+Fr?d?ric Dang Ngoc
+France T?l?com Division R&D / LRI
+38-40, rue du G?n?ral Leclerc
+92130 Issy-Les-Moulineaux
+
+
+From alexandre.fayolle at logilab.fr  Wed Nov 16 16:57:53 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Wed, 16 Nov 2005 16:57:53 +0100
+Subject: [Maay-dev] download bug ?
+In-Reply-To: <35cde7700511160740h6e6a26f3h218eed535cb708d8@mail.gmail.com>
+References: <35cde7700511160646r6ce446fcgf8118a455f3c1223@mail.gmail.com> <20051116145248.GA2346@logilab.fr> <35cde7700511160740h6e6a26f3h218eed535cb708d8@mail.gmail.com>
+Message-ID: <20051116155753.GE1941@crater.logilab.fr>
+
+Hi Fr?d?ric,
+
+On Wed, Nov 16, 2005 at 04:40:40PM +0100, Fr?d?ric Dang Ngoc wrote:
+> In fact, it's quite strange. There are only logs from
+> the downloader side. Look like the provider is not contacted... :
+
+Could you try with Maay-0.2.1 which has freshly arrived on Berlios and
+is about to be announced on this list ? 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051116/e68f0905/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Wed Nov 16 17:01:08 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Wed, 16 Nov 2005 17:01:08 +0100
+Subject: [Maay-dev] [ANN] Maay-0.2.1
+Message-ID: <20051116160107.GF1941@crater.logilab.fr>
+
+Maay 0.2.1 has just been released on
+http://developer.berlios.de/projects/maay/
+
+This is a bug fix release. No new features were added, but several
+issues were fixed. 
+
+This is a beta release which needs some testing. Please give it a try
+and give us some feedback on the maay-dev mailing list.
+
+What's new in 0.2.1?
+
+  * Fixed bug #5647 caused by bad use of os.getlogin() preventing P2P
+    queries from being processed on Windows
+  * Fixed off by one error in document abstract generation (#5648)
+  * Fixed auto indexation of downloaded documents
+  * Fixed some display inconsistencies in web interface
+  * Added missing directories in indexation web page
+  * Logging now happens in maay-node.log
+
+
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051116/b438dad9/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Fri Nov 18 10:20:59 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Fri, 18 Nov 2005 10:20:59 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r551 - in trunk/maay: . data
+In-Reply-To: <200511171742.jAHHgxa2005323@sheep.berlios.de>
+References: <200511171742.jAHHgxa2005323@sheep.berlios.de>
+Message-ID: <20051118092059.GB12580@crater.logilab.fr>
+
+On Thu, Nov 17, 2005 at 06:42:59PM +0100, dnf at BerliOS wrote:
+> Author: dnf
+> Date: 2005-11-17 18:42:57 +0100 (Thu, 17 Nov 2005)
+> New Revision: 551
+> 
+> Modified:
+>    trunk/maay/data/indexationpage.html
+>    trunk/maay/data/maay.css
+>    trunk/maay/webapplication.py
+> Log:
+> First changes on indexation page to handle add/remove of folders.
+> I will finish the work tomorrow :
+> - save change in the configuration file (indexer.ini)
+> - merge the public-skip-dir and private-skip-dir (into skip-dir) in all files 
+> 
+> IMPORTANT: to get things easier for the user, there will only be three
+> folders set :
+>   - private-dir 
+>   - public-dir
+>   - skip-dir (indexer skip these folders for the private directory and public directory)
+> We think that in most usual cases, we do not need to differentiate public-skip-dir and private-skip-dir.
+> 
+> What do you think ?
+
+Please use the maay-dev mailing list for such questions. 
+
+I have no objection to a single skip-dir configuration. Be sure to
+update the following files which are impacted by the change:
+
+ maay/configuration.py
+ maay/configuration/indexer.ini
+ maay/configuration/win32/indexer.ini
+ maay/win32/updateconfig.py 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051118/80947e98/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Fri Nov 18 16:23:18 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Fri, 18 Nov 2005 16:23:18 +0100
+Subject: [Maay-dev] documentation
+Message-ID: <20051118152318.GD12580@crater.logilab.fr>
+
+I have checked in some documentation. Restructured text versions are in
+trunk/*.txt and html versions in doc/*.html. They could use some proof
+reading and validation. Please provide some feedback on these documents. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051118/a5d7a4fc/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Fri Nov 18 17:09:50 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 18 Nov 2005 17:09:50 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r569 - in trunk/maay: . data
+In-Reply-To: <200511181447.jAIEldOK019922@sheep.berlios.de>
+References: <200511181447.jAIEldOK019922@sheep.berlios.de>
+Message-ID: <20051118160950.GA1178@logilab.fr>
+
+Hi Frederic,
+
+Well, displaying stat. info and some marketing blurb is nice and
+important but I have some observations with respect to the way it is
+currently displayed :
+
+* the marketing text in orange is slightly too big (for my taste, that may be
+  not universal),
+* the text displaying stats is too small (especially for me, but other
+  people might be affected too) while probably more
+  important/informative than the marketing piece
+* both pieces are separated by a huge white/blank space but the orange
+  stuff seems scotched to the search box
+* the search box and the "search" button are misaligned, and this may
+  seem deeply wrong to users in FT later ....
+
+* last thing : the count for local documents seems currently, maxing
+  out at 50
+
+I hope you can do something about these items.
+
+Cheers,
+Aur?lien.
+
+On Fri, Nov 18, 2005 at 03:47:39PM +0100, dnf at BerliOS wrote:
+> Author: dnf
+> Date: 2005-11-18 15:47:38 +0100 (Fri, 18 Nov 2005)
+> New Revision: 569
+> 
+> Modified:
+>    trunk/maay/data/liveresults.html
+>    trunk/maay/data/maay.css
+>    trunk/maay/data/searchform.html
+>    trunk/maay/data/skeleton.html
+>    trunk/maay/dbentity.py
+>    trunk/maay/querier.py
+>    trunk/maay/webapplication.py
+> Log:
+> Some esthetic modifications.
+> 
+> 
+> 
+> Modified: trunk/maay/data/liveresults.html
+> ===================================================================
+> --- trunk/maay/data/liveresults.html	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/data/liveresults.html	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -43,7 +43,7 @@
+>  
+>    </head>
+>    <body onload="startConnection()">
+> -    <div class="headlinks"><a href="/indexation" class="headlink">[Indexation&nbsp;Page]&nbsp;</a></div>
+> +    <div class="headlinks"><a href="/indexation" class="headlink">[Manage Folders]</a></div>
+>      <div class="reSearch">
+>        <form action="search" accept-charset="utf-8">
+>  	<table>
+> 
+> Modified: trunk/maay/data/maay.css
+> ===================================================================
+> --- trunk/maay/data/maay.css	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/data/maay.css	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -32,6 +32,11 @@
+>  }
+>  
+>  /** search page *******/
+> +div.shortDocStat {
+> +  font-size: 60%;
+> +}
+> +
+> +
+>  input.searchButton {
+>    background: #FFF0FF;
+>    border: 1px outset #ff2222;
+> 
+> Modified: trunk/maay/data/searchform.html
+> ===================================================================
+> --- trunk/maay/data/searchform.html	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/data/searchform.html	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -18,6 +18,10 @@
+>              <input type="text" name="words" value="" />
+>                <input type="submit" class="searchButton" value="search" />
+>            </form>
+> +          <font color="orange" size="+1">Search and share your documents.</font><br /><br />
+> +          <div class="shortDocStat" nevow:render="shortstat">
+> +            Searching <nevow:slot name="localDocumentCount" /> documents. Sharing <nevow:slot name="publicDocumentCount" /> documents.
+> +          </div>
+>          </td>
+>        </tr>
+>      </table>
+> 
+> Modified: trunk/maay/data/skeleton.html
+> ===================================================================
+> --- trunk/maay/data/skeleton.html	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/data/skeleton.html	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -6,7 +6,7 @@
+>      <link rel="stylesheet" type="text/css" href="maaycss"/>
+>        <link rel="shortcut icon" href="images/maay.ico" />
+>    </head>
+> -      <div class="headlinks"><a href="/indexation" class="headlink">[Indexation&nbsp;Page]&nbsp;</a></div>
+> +      <div class="headlinks"><a href="/indexation" class="headlink">[Manage Folders]</a></div>
+>    <body>
+>      <nevow:invisible nevow:macro="body" />
+>      <nevow:invisble nevow:macro="footer" />
+> 
+> Modified: trunk/maay/dbentity.py
+> ===================================================================
+> --- trunk/maay/dbentity.py	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/dbentity.py	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -189,7 +189,9 @@
+>      and only a few words are known
+>  
+>      * UNKNOWN_STATE (???): not documented in the thesis, has a strange
+> -      value (1<<9) since it gets stored in a char or a signed byte
+> +      value (1<<9) since it gets stored in a char or a signed byte.
+> +      In fact, this state was (plan to be) used in the prototype for
+> +      debugging purpose. So it is a useless state... 
+>      """
+>  
+>      # Caution : in the maay.orig branch, this parameter gets stored as
+> @@ -303,6 +305,19 @@
+>          return results[0]
+>      selectUrlAndTypeWhereDocid = classmethod(selectUrlAndTypeWhereDocid)
+>  
+> +    # for stat purpose
+> +    def getDocumentCount(cls, cursor):
+> +        query = "SELECT state, count(*) FROM documents GROUP BY state"
+> +        cursor.execute(query)
+> +        results = cursor.fetchall()
+> +
+> +        docCounts = {Document.PUBLISHED_STATE:0, Document.PRIVATE_STATE:0,
+> +            Document.CACHED_STATE:0, Document.KNOWN_STATE:0}
+> +
+> +        for result in results:
+> +            docCounts[int(result[0])] = result[1]
+> +        return docCounts
+> +    getDocumentCount = classmethod(getDocumentCount)
+>      
+>  class Result(Document):
+>      """Results are temporary relations created/destroyed on the fly
+> 
+> Modified: trunk/maay/querier.py
+> ===================================================================
+> --- trunk/maay/querier.py	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/querier.py	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -60,6 +60,9 @@
+>          """returns a list of indexed file names as strings
+>          """
+>  
+> +    def getDocumentCount(self):
+> +        """get document count"""
+> +
+>      def indexDocument(nodeId, futureDoc):
+>          """Inserts or update information in table documents,
+>          file_info, document_score and word"""
+> @@ -418,6 +421,13 @@
+>          print "removed %d rows related to unreferenced documents" % rows
+>          return rows
+>  
+> +    def getDocumentCount(self):
+> +        """get document count"""
+> +        cursor = self._cnx.cursor()
+> +        docCounts = Document.getDocumentCount(cursor)
+> +        cursor.close()
+> +        return docCounts
+> +
+>      def indexDocument(self, nodeId, futureDoc):
+>          """Inserts or update information in table documents,
+>          file_info, document_score and word"""
+> 
+> Modified: trunk/maay/webapplication.py
+> ===================================================================
+> --- trunk/maay/webapplication.py	2005-11-18 14:35:59 UTC (rev 568)
+> +++ trunk/maay/webapplication.py	2005-11-18 14:47:38 UTC (rev 569)
+> @@ -193,15 +193,18 @@
+>          self.querier = querier
+>          self.p2pquerier = p2pquerier
+>          self.download_dir = indexer.indexerConfig.download_dir
+> +
+> +    def render_shortstat(self, context, data):
+> +        docCounts = self.querier.getDocumentCount()
+> +        context.fillSlots('localDocumentCount', docCounts[Document.PRIVATE_STATE] + docCounts[Document.PUBLISHED_STATE]) 
+> +        context.fillSlots('publicDocumentCount', docCounts[Document.PUBLISHED_STATE]) 
+> +        return context.tag
+>          
+>      def logout(self):
+>          print "Bye %s !" % (self.maayId,)
+>          # XXX: logout message should be forwarded to presence server
+>          return None
+>  
+> -    def child_peers(self, context):
+> -        return PeersList(self.maayId, self.querier)
+> -
+>      def child_indexation(self, context, _factory=IndexationPageFactory(IndexationPage)):
+>          # TODO: check if the added folders are valid
+>  
+> 
+> _______________________________________________
+> Maay-svncheckins mailing list
+> Maay-svncheckins at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-svncheckins
+
+
+From aurelien.campeas at free.fr  Sat Nov 19 15:59:07 2005
+From: aurelien.campeas at free.fr (=?ISO-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Sat, 19 Nov 2005 15:59:07 +0100
+Subject: [Maay-dev] great news
+Message-ID: <437F3DBB.2040306@free.fr>
+
+I hope you will be happy to learn that Maay is listed 22 on the list of 
+the most active projects of the week on Berlios :)
+
+(now crawling back into bed)
+Aur?lien.
+
+
+From Adrien.DiMascio at logilab.fr  Mon Nov 21 12:44:37 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Mon, 21 Nov 2005 12:44:37 +0100
+Subject: [Maay-dev] [ANN] Maay-0.2.2
+Message-ID: <20051121114437.GA10809@crater.logilab.fr>
+
+Maay 0.2.2 has just been released on
+http://developer.berlios.de/projects/maay/
+
+This is a bug fix release. No new features were added, but several
+issues were fixed. 
+
+Please give it a try and give us some feedback on the maay-dev
+mailing list.
+
+What's new in 0.2.2?
+  * Use IP adress of presence server instead of domain name
+  * Threshold on document relevance and popularity to avoid negative
+    values
+  * Fixed ranking bug to display more recent documents first
+  * return a maximum of 50 results per peer
+  * improved Internet Explorer compatibility
+  * Fix a communication bug when non-standard ports are used, and thus ...
+  * Is incompatible with prior versions (won't answer to queries from old version)
+
+Enjoy !
+Adrien.	
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051121/d1a81531/attachment.pgp>
+
+From frederic.dangngoc at gmail.com  Mon Nov 21 19:15:04 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Mon, 21 Nov 2005 19:15:04 +0100
+Subject: [Maay-dev] auto-installer
+Message-ID: <35cde7700511211015k571447a3j606778619bf308c2@mail.gmail.com>
+
+When I install maay from the auto-installer, it creates two folders
+"Maay Documents" on the Desktop.
+One is "C:\Documents and Settings\dangngfr\Desktop".
+and the other  is "C:\Documents and Settings\All Users\Desktop".
+The first one seems to be created by the autoinstaller while the other
+seems to be
+created when the node is launched.
+
+Is it a bug or a feature ? ;-)
+
+Frederic
+
+
+From aurelien.campeas at logilab.fr  Mon Nov 21 19:16:58 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Mon, 21 Nov 2005 19:16:58 +0100
+Subject: [Maay-dev] NOTE FOR WINDOWS USERS
+Message-ID: <20051121181658.GA1229@logilab.fr>
+
+NOTE TO WINDOWS USERS : the current release of Maay is installed as a
+Windows Service, but it will not be started automatically on next
+reboot. To gain this behaviour, please go to the service management
+interface* , right-click on Maay, click on Properties and then, change
+the Status Type (Type de d?marrage) from Manual to Automatic.
+
+
+*Start -> Settings -> Control Panel -> Administration tools ->
+ Services 
+
+*D?marrer -> Param?tres -> Panneau de Configuration ->
+ Outils d'Administration -> Services
+
+This will be fixed in the next release.
+
+
+Aur?lien Camp?as.
+
+
+From aurelien.campeas at logilab.fr  Mon Nov 21 19:22:00 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Mon, 21 Nov 2005 19:22:00 +0100
+Subject: [Maay-dev] auto-installer
+In-Reply-To: <35cde7700511211015k571447a3j606778619bf308c2@mail.gmail.com>
+References: <35cde7700511211015k571447a3j606778619bf308c2@mail.gmail.com>
+Message-ID: <20051121182200.GB1229@logilab.fr>
+
+Hi Frederic,
+
+On Mon, Nov 21, 2005 at 07:15:04PM +0100, Fr?d?ric Dang Ngoc wrote:
+> When I install maay from the auto-installer, it creates two folders
+> "Maay Documents" on the Desktop.
+> One is "C:\Documents and Settings\dangngfr\Desktop".
+> and the other  is "C:\Documents and Settings\All Users\Desktop".
+> The first one seems to be created by the autoinstaller while the other
+> seems to be
+> created when the node is launched.
+> 
+> Is it a bug or a feature ? ;-)
+
+Both :)
+
+I think the second one is superfluous and won't, by default, be
+indexed.
+
+By the way, let us all remind that when an option name or default
+value is to be modified, it should be done both in configuration.py
+*and* in win32/updateconfig.py :)
+
+Cheers,
+Aur?lien.
+
+
+From aurelien.campeas at logilab.fr  Tue Nov 22 10:17:26 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Tue, 22 Nov 2005 10:17:26 +0100
+Subject: [Maay-dev] [Maay] as windows service
+In-Reply-To: <20051117162339.GA20490@crater.logilab.fr>
+References: <20051117162339.GA20490@crater.logilab.fr>
+Message-ID: <20051122091726.GA1260@logilab.fr>
+
+Dear Maay developpers,
+
+It has probably not escaped you that release 0.2.2 suffers from two
+minor but inconvenient malfunctions for windows users :
+
+* the maay node service was not set up as 'automatic', thus the
+  service will not be started automatically on reboot,
+
+* the windows service manager was not told that the maay node service
+  depends on the mysql service, which could lead to an unusable maay
+  node service if it were started before mysql is ready to accepts
+  connections.
+
+Right now, we have a fix for these problems. Note that for the first
+problem, we already send a note to maay-dev and highlighted the
+problem on the maay.net-of-peers wikimedia site, and a workaround for
+it.
+
+If the deployment process is still in the early phase, we can provide
+a new release (0.2.3) that fixes only these two points, so as to not
+affect the Maay experience for Windows users.
+
+Respectfully,
+Aur?lien Camp?as.
+
+
+From adimasci at gmail.com  Wed Nov 23 12:41:55 2005
+From: adimasci at gmail.com (Adrien Di Mascio)
+Date: Wed, 23 Nov 2005 12:41:55 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r619 - in trunk: . maay/data
+In-Reply-To: <437de8500511230331v3ecf623et98dd906e0977f5bb@mail.gmail.com>
+References: <200511231113.jANBDAEJ031260@sheep.berlios.de>
+	 <437de8500511230331v3ecf623et98dd906e0977f5bb@mail.gmail.com>
+Message-ID: <437de8500511230341v10c0e097v101fb3e007f7f971@mail.gmail.com>
+
+> However ... could you explain a bit more how it works ? Because it looks
+> like both "version"
+> and "current_version" will be hardcoded in "version.js". What did I miss ?
+>
+
+OK. I was confused by the local version of "version.js" and didn't notice
+that you were
+downloading the second "version.js" file from the netofpeers server.
+
+Anyway, the search form is now broken because it still uses the template
+mechanism.
+(so we now have 2 headers and 2 footers displayed)
+
+Cheers,
+Adrien.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051123/dc464cec/attachment.html>
+
+From adimasci at gmail.com  Wed Nov 23 12:31:18 2005
+From: adimasci at gmail.com (Adrien Di Mascio)
+Date: Wed, 23 Nov 2005 12:31:18 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r619 - in trunk: . maay/data
+In-Reply-To: <200511231113.jANBDAEJ031260@sheep.berlios.de>
+References: <200511231113.jANBDAEJ031260@sheep.berlios.de>
+Message-ID: <437de8500511230331v3ecf623et98dd906e0977f5bb@mail.gmail.com>
+
+Hi Fr?d?ric,
+
+
+- maay.iss creates a link Maay.url in the start menu (this was not working
+> on french version of windows)
+
+
+Strange, we have a french localized box here and as far as I remember, it
+has always worked.
+
+Add a javascript checking of new versions of maay on maay.netofpeers.net.
+
+
+That's a nice feature ...
+
+However ... could you explain a bit more how it works ? Because it looks
+like both "version"
+and "current_version" will be hardcoded in "version.js". What did I miss ?
+
+Modified: trunk/maay/data/searchform.html
+> ===================================================================
+> --- trunk/maay/data/searchform.html     2005-11-23 10:35:00 UTC (rev 618)
+> +++ trunk/maay/data/searchform.html     2005-11-23 11:12:58 UTC (rev 619)
+> @@ -1,13 +1,57 @@
+> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+> "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+> +<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:nevow="
+> http://nevow.com/ns/nevow/0.1">
+> +  <head>
+> +    <title>Indexation Page</title>
+
+
+Looks like a copy&paste buglet : the title is probably incorrect here.
+
+Anyway, that's a nice feature.
+
+Cheers,
+Adrien
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051123/364850de/attachment.html>
+
+From frederic.dangngoc at gmail.com  Wed Nov 23 14:15:37 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Wed, 23 Nov 2005 14:15:37 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r619 - in trunk: . maay/data
+In-Reply-To: <437de8500511230331v3ecf623et98dd906e0977f5bb@mail.gmail.com>
+References: <200511231113.jANBDAEJ031260@sheep.berlios.de>
+	 <437de8500511230331v3ecf623et98dd906e0977f5bb@mail.gmail.com>
+Message-ID: <35cde7700511230515r33c66202yb80845506a2b3d75@mail.gmail.com>
+
+Hi Adrien,
+
+> > - maay.iss creates a link Maay.url in the start menu (this was not working
+> on french version of windows)
+
+In the old version of Maay.iss, the installer creates the file
+Maay.url in (Userstartmenu)\Programs\Maay. And the word "Programs"
+depends
+on the locale of the computer (Programmes in french)...
+
+> > Add a javascript checking of new versions of maay on maay.netofpeers.net.
+>
+> That's a nice feature ...
+>
+> However ... could you explain a bit more how it works ?
+
+> Because it looks
+> like both "version"
+> and "current_version" will be hardcoded in "version.js". What did I miss ?
+
+there are two versions :
+- on http://maay.netofpeers.net/version.js which contains the latest stable
+version of maay
+- on http://localhost:7777/version.js which contains the current
+installed version of Maay. It is (may) be used for external web pages
+to detect if the user has installed Maay on its computer.
+
+Basically, the javascript (in searchform.html) loads the file
+"http://maay.netofpeers.net/version.js"
+and uses it to check if the current installed version of Maay is
+outdated or not ? If it is the case, a message is displayed on the
+html page.
+
+Frederic
+
+
+From frederic.dangngoc at gmail.com  Fri Nov 25 12:53:25 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Fri, 25 Nov 2005 12:53:25 +0100
+Subject: [Maay-dev] Windows installer improvement ?
+Message-ID: <35cde7700511250353o2295dbf5s4a65c0e9eff46670@mail.gmail.com>
+
+Hi,
+
+maybe just a small feature to add in the todo list.
+
+problem description :
+When the installer installs Maay on a computer where Maay is already
+installed and running, it erases the Maay directory but cannot suceed
+since mysql or maay is running and locks some files.
+
+possible solution :
+Detect if Maay is already installed. If it is the case, two solutions :
+- launch the uninstallation script of the current installed maay version
+- stop the mysql and maay service and overwrite the maay directory
+
+Which solution looks the best for you ?
+
+I will try to implement it.
+
+Fr?d?ric
+
+
+From aurelien.campeas at logilab.fr  Fri Nov 25 13:42:09 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 25 Nov 2005 13:42:09 +0100
+Subject: [Maay-dev] Windows installer improvement ?
+In-Reply-To: <35cde7700511250353o2295dbf5s4a65c0e9eff46670@mail.gmail.com>
+References: <35cde7700511250353o2295dbf5s4a65c0e9eff46670@mail.gmail.com>
+Message-ID: <20051125124209.GA3963@logilab.fr>
+
+On Fri, Nov 25, 2005 at 12:53:25PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Hi,
+
+Hi,
+
+> 
+> maybe just a small feature to add in the todo list.
+> 
+> problem description :
+> When the installer installs Maay on a computer where Maay is already
+> installed and running, it erases the Maay directory but cannot suceed
+> since mysql or maay is running and locks some files.
+> 
+> possible solution :
+> Detect if Maay is already installed. If it is the case, two solutions :
+> - launch the uninstallation script of the current installed maay version
+> - stop the mysql and maay service and overwrite the maay directory
+> 
+> Which solution looks the best for you ?
+> 
+
+The first (the clean way :)
+
+Another topic : Adrien asks why the peers page has been removed. It
+was useful sometimes, if only for debugging purposes, to have it.
+
+> I will try to implement it.
+> 
+> Fr?d?ric
+> _______________________________________________
+> Maay-dev mailing list
+> Maay-dev at lists.berlios.de
+> http://lists.berlios.de/mailman/listinfo/maay-dev
+
+
+From frederic.dangngoc at gmail.com  Fri Nov 25 14:33:51 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Fri, 25 Nov 2005 14:33:51 +0100
+Subject: [Maay-dev] Windows installer improvement ?
+In-Reply-To: <20051125124209.GA3963@logilab.fr>
+References: <35cde7700511250353o2295dbf5s4a65c0e9eff46670@mail.gmail.com>
+	 <20051125124209.GA3963@logilab.fr>
+Message-ID: <35cde7700511250533h411cf6f4r70d7db4ee8875956@mail.gmail.com>
+
+> The first (the clean way :)
+
+ok. I will try to implement it.
+
+> Another topic : Adrien asks why the peers page has been removed. It
+> was useful sometimes, if only for debugging purposes, to have it.
+
+Yes, it was very useful.
+(Is the question addressed to me ? I have not remove it... (I hope
+it's not me ;-)))
+
+Frederic
+
+
+From aurelien.campeas at logilab.fr  Fri Nov 25 15:38:26 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Fri, 25 Nov 2005 15:38:26 +0100
+Subject: [Maay-dev] a few remarks
+Message-ID: <20051125143826.GA4860@logilab.fr>
+
+Hi Frederic,
+
+Wea are making a review of the remaining glitches and it appears the
+PREV/NEXT buttons look quite ugly compared to everything else ; also
+the alignment is not the same for prev/next on top and at the bottom
+of the page.
+
+We propose to put it on the left, and also to add an 'inactive'
+previous (resp. next) button on the first (resp. last) page.
+
+Another possibility is to use small pictures representing
+forward/backward buttons. Have you some of these in stock ?
+
+
+We just finished to kill a few indexer-related bugs and will soon
+produce the last windows installer.
+
+Cheers,
+Aur?lien.
+
+
+From frederic.dangngoc at gmail.com  Fri Nov 25 16:47:47 2005
+From: frederic.dangngoc at gmail.com (=?ISO-8859-1?Q?Fr=E9d=E9ric_Dang_Ngoc?=)
+Date: Fri, 25 Nov 2005 16:47:47 +0100
+Subject: [Maay-dev] Windows installer improvement ?
+In-Reply-To: <35cde7700511250533h411cf6f4r70d7db4ee8875956@mail.gmail.com>
+References: <35cde7700511250353o2295dbf5s4a65c0e9eff46670@mail.gmail.com>
+	 <20051125124209.GA3963@logilab.fr>
+	 <35cde7700511250533h411cf6f4r70d7db4ee8875956@mail.gmail.com>
+Message-ID: <35cde7700511250747y4806619do5976b532d962484c@mail.gmail.com>
+
+By any chance, does anyone know how to execute a script
+(removeservices.exe) at the beginning of the installation (before the
+files are copied).
+
+Fr?d?ric
+
+
+From Adrien.DiMascio at logilab.fr  Mon Nov 28 09:50:53 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Mon, 28 Nov 2005 09:50:53 +0100
+Subject: [Maay-dev] (no subject)
+Message-ID: <20051128085053.GA10727@crater.logilab.fr>
+
+Hi everyone !
+
+Maay 0.3.0 has just been released on
+http://developer.berlios.de/projects/maay/
+
+This is a new stable release. Some features where added, and several
+issues were fixed.
+
+Please give it a try and give us some feedback on the maay-dev
+mailing list.
+
+What's new in 0.3.0?
+    * Ergonomic improvements
+    * Compute and use popularity and relevance scores
+    * Download files from other peers when the first ones fail
+    * Check maay version at startup time
+    * Lots of bug fixes
+	
+Enjoy !
+Adrien.	
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051128/bf71c0db/attachment.pgp>
+
+From gwendal.simon at francetelecom.com  Mon Nov 28 10:08:57 2005
+From: gwendal.simon at francetelecom.com (SIMON Gwendal RD-MAPS-ISS)
+Date: Mon, 28 Nov 2005 10:08:57 +0100
+Subject: [Maay-dev] (no subject)
+Message-ID: <DD8B8FEBBFAF9E488F63FF0F1A69EDD1DD2001@ftrdmel1.rd.francetelecom.fr>
+
+Hi,
+
+	I have some troubles :
+
+- the little icon M in the Panel is right, but "Search" and "Manage folder" are not effective.
+- the indexer seems to not work as well as in previous versions. It only discovers a little part of my files (8 over 56).
+
+	I am on Windows XP within the FT intranet. Is there a way to send you some logs ?
+
+	Bye.
+
+-- Gwendal
+
+ 
+
+> -----Message d'origine-----
+> De : maay-dev-admin at berlios.de 
+> [mailto:maay-dev-admin at berlios.de] De la part de Adrien Di Mascio
+> Envoy? : lundi 28 novembre 2005 09:51
+> ? : maay-dev at lists.berlios.de
+> Objet : [Maay-dev] (no subject)
+> 
+> Hi everyone !
+> 
+> Maay 0.3.0 has just been released on
+> http://developer.berlios.de/projects/maay/
+> 
+> This is a new stable release. Some features where added, and several
+> issues were fixed.
+> 
+> Please give it a try and give us some feedback on the maay-dev
+> mailing list.
+> 
+> What's new in 0.3.0?
+>     * Ergonomic improvements
+>     * Compute and use popularity and relevance scores
+>     * Download files from other peers when the first ones fail
+>     * Check maay version at startup time
+>     * Lots of bug fixes
+> 	
+> Enjoy !
+> Adrien.	
+> 
+> -- 
+> Adrien Di Mascio
+> LOGILAB, Paris (France).
+> http://www.logilab.com   http://www.logilab.fr   
+> http://www.logilab.org
+> 
+> 
+
+
+From Adrien.DiMascio at logilab.fr  Mon Nov 28 10:43:32 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Mon, 28 Nov 2005 10:43:32 +0100
+Subject: [Maay-dev] (no subject)
+In-Reply-To: <DD8B8FEBBFAF9E488F63FF0F1A69EDD1DD2001@ftrdmel1.rd.francetelecom.fr>
+References: <DD8B8FEBBFAF9E488F63FF0F1A69EDD1DD2001@ftrdmel1.rd.francetelecom.fr>
+Message-ID: <20051128094331.GA11646@crater.logilab.fr>
+
+Hi Gwendal,
+
+> - the little icon M in the Panel is right, but "Search" and "Manage
+>   folder" are not effective.
+
+This is fixed in the SVN repository.
+
+> - the indexer seems to not work as well as in previous versions. It only discovers a little part of my files (8 over 56).
+
+No such problem here. We would definitly need the logs to help you.
+
+> I am on Windows XP within the FT intranet. Is there a way to send you some logs ?
+
+If you use Maay as a service, you should have the following log file ::
+
+  C:\WINDOWS\System32\maay-node.log
+
+Could you please send it to us ? Please, also note that the log file
+is emtpied each time the service is stopped.
+
+Cheers,
+Adrien.
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051128/a1364387/attachment.pgp>
+
+From adimasci at gmail.com  Mon Nov 28 12:05:10 2005
+From: adimasci at gmail.com (Adrien Di Mascio)
+Date: Mon, 28 Nov 2005 12:05:10 +0100
+Subject: [Maay-dev] (no subject)
+In-Reply-To: <20051128094331.GA11646@crater.logilab.fr>
+References: <DD8B8FEBBFAF9E488F63FF0F1A69EDD1DD2001@ftrdmel1.rd.francetelecom.fr>
+	 <20051128094331.GA11646@crater.logilab.fr>
+Message-ID: <437de8500511280305n3954ba89jf6066f3bf403b1e3@mail.gmail.com>
+
+On 11/28/05, Adrien Di Mascio <Adrien.DiMascio at logilab.fr> wrote:
+>
+> If you use Maay as a service, you should have the following log file ::
+>
+>   C:\WINDOWS\System32\maay-node.log
+>
+> Could you please send it to us ? Please, also note that the log file
+> is emtpied each time the service is stopped.
+
+
+ Of course, I meant "each time the service is started"
+
+Cheers,
+Adrien.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051128/610cda0a/attachment.html>
+
+From Adrien.DiMascio at logilab.fr  Mon Nov 28 16:43:59 2005
+From: Adrien.DiMascio at logilab.fr (Adrien Di Mascio)
+Date: Mon, 28 Nov 2005 16:43:59 +0100
+Subject: [Maay-dev] [ANN] Maay 0.3.1
+Message-ID: <20051128154359.GA18484@crater.logilab.fr>
+
+Hi everyone !
+
+Maay 0.3.1 has just been released on 
+http://developer.berlios.de/projects/maay
+
+This is a bugfix release, especially for windows platforms :
+
+ - fixed inactive links in the systray
+ - fixed indexation problems of pdf and doc files on windows platforms
+
+Enjoy !
+Adrien.
+
+-- 
+Adrien Di Mascio
+LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr   http://www.logilab.org
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 189 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051128/3f74e542/attachment.pgp>
+
+From alexandre.fayolle at logilab.fr  Tue Nov 29 18:04:05 2005
+From: alexandre.fayolle at logilab.fr (Alexandre Fayolle)
+Date: Tue, 29 Nov 2005 18:04:05 +0100
+Subject: [Maay-dev] integer division in python
+In-Reply-To: <200511291646.jATGkf93025894@sheep.berlios.de>
+References: <200511291646.jATGkf93025894@sheep.berlios.de>
+Message-ID: <20051129170405.GA18820@crater.logilab.fr>
+
+Hello Fr?d?ric,
+
+On Tue, Nov 29, 2005 at 05:46:41PM +0100, dnf at BerliOS wrote:
+> Author: dnf
+> Date: 2005-11-29 17:46:40 +0100 (Tue, 29 Nov 2005)
+> New Revision: 682
+> 
+> Modified:
+>    trunk/maay/data/livefragment.html
+>    trunk/maay/querier.py
+> Log:
+> small fix: score of relevance and popularity for multi-keywords query (float cast).
+
+This change is not necessary. Have you checked that there really was a
+problem with it ?
+
+>          for winfo in wordInfo.itervalues():
+> -            winfo.download_count += 1 / len(words)
+> +            winfo.download_count += 1.0 / len(words)
+>              winfo.commit(cursor, update=True)
+ 
+If you look at the top of querier.py you will see the following
+statement:
+
+from __future__ import division
+
+See http://www.python.org/peps/pep-0238.html for details, but basically,
+it means that in querier.py an int divided by another int will produce a
+float, and that in order to get the "old" integer division you have to
+use the // operator. 
+
+-- 
+Alexandre Fayolle                              LOGILAB, Paris (France).
+http://www.logilab.com   http://www.logilab.fr  http://www.logilab.org
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 481 bytes
+Desc: Digital signature
+URL: <https://lists.berlios.de/pipermail/maay-dev/attachments/20051129/24e96156/attachment.pgp>
+
+From aurelien.campeas at logilab.fr  Tue Nov 29 18:12:22 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Tue, 29 Nov 2005 18:12:22 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay
+In-Reply-To: <200511291650.jATGof8n026309@sheep.berlios.de>
+References: <200511291650.jATGof8n026309@sheep.berlios.de>
+Message-ID: <20051129171221.GC3991@logilab.fr>
+
+On Tue, Nov 29, 2005 at 05:50:41PM +0100, dnf at BerliOS wrote:
+> Author: dnf
+> Modified: trunk/maay/indexer.py
+> ===================================================================
+> --- trunk/maay/indexer.py	2005-11-29 16:50:11 UTC (rev 683)
+> +++ trunk/maay/indexer.py	2005-11-29 16:50:40 UTC (rev 684)
+> @@ -196,7 +196,7 @@
+>                  self.indexFile(filename, isPrivate)
+>  # FIXME: a UnicodeError may be raised and is not catched.
+>  #            except FileIndexationFailure, fif: # should be
+catch-all
+
+Hi,
+
+Did you really discover an unicode exception bubling up to this place
+? Can you report it ?
+
+Thanks,
+Aurelien
+
+
+From aurelien.campeas at logilab.fr  Wed Nov 30 09:43:09 2005
+From: aurelien.campeas at logilab.fr (=?iso-8859-1?Q?Aur=E9lien_Camp=E9as?=)
+Date: Wed, 30 Nov 2005 09:43:09 +0100
+Subject: [Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay
+In-Reply-To: <35cde7700511291044o18c4017dq4938a0ddda95b5d2@mail.gmail.com>
+References: <200511291650.jATGof8n026309@sheep.berlios.de> <20051129171221.GC3991@logilab.fr> <35cde7700511291044o18c4017dq4938a0ddda95b5d2@mail.gmail.com>
+Message-ID: <20051130084308.GA3977@logilab.fr>
+
+On Tue, Nov 29, 2005 at 07:44:34PM +0100, Fr?d?ric Dang Ngoc wrote:
+> Bonjour Aur?lien,
+
+Bonjour Fr?d?ric,
+
+> 
+> d?sol? d'avoir sauvagement modifi? le fichier indexer.py.
+
+Pas de soucis.
+
+> 
+> Je vais regarder le probl?me plus en d?tail apr?s la demo de demain et
+> d'apr?s demain.
+> 
+> description du probl?me :
+> Sur mes deux ordinateurs sous windows, l'indexation marche bien.
+> Par contre sur l'ordinateur d'un coll?gue sous windows, l'indexeur
+> plante sur plusieurs de ses fichiers (unicodeerror ....).
+> Quand je copie ces fichiers sur mon ordinateur et que je les indexe,
+> je n'ai pas de probl?me.
+> 
+> Je te joins un fichier qui pose probl?me sur son ordinateur.
+> 
+> ainsi que les traces (qui ne sont pas tr?s parlantes malheureusement...).
+> 
+
+La trace serait plus parlante si tu incluais quelques lignes plus en amont,
+incluant le message d'?chec de l'indexeur ("Won't index ..."),
+histoire d'obtenir le nom du fichier coupable.
+
+Cela dit alexandre m'a signal? qqchose de similaire hier soir. Je m'y
+colle ...
+
+> 2005/11/29 17:02 Romance Standard Time [-] Exception in thread Thread-41:
+> 2005/11/29 17:02 Romance Standard Time [-] Traceback (most recent call last):
+> 2005/11/29 17:02 Romance Standard Time [-]   File "threading.pyc",
+> line 442, in __bootstrap
+> 2005/11/29 17:02 Romance Standard Time [-]   File "threading.pyc",
+> line 422, in run
+> 2005/11/29 17:02 Romance Standard Time [-]   File "maay\indexer.pyc",
+> line 422, in runLocally
+> 2005/11/29 17:02 Romance Standard Time [-]   File "maay\indexer.pyc",
+> line 148, in start
+> 2005/11/29 17:02 Romance Standard Time [-]   File "maay\indexer.pyc",
+> line 198, in runIndexer
+> 2005/11/29 17:02 Romance Standard Time [-]   File
+> "twisted\python\log.pyc", line 313, in write
+> 2005/11/29 17:02 Romance Standard Time [-] UnicodeDecodeError: 'ascii'
+> codec can't decode byte 0xe9 in position 61: ordinal not in range(128)
+> 2005/11/29 17:02 Romance Standard Time [-]
+> 
+> A+,
+> 
+> Fr?d?ric
+> 
+> On 11/29/05, Aur?lien Camp?as <aurelien.campeas at logilab.fr> wrote:
+> > On Tue, Nov 29, 2005 at 05:50:41PM +0100, dnf at BerliOS wrote:
+> > > Author: dnf
+> > > Modified: trunk/maay/indexer.py
+> > > ===================================================================
+> > > --- trunk/maay/indexer.py     2005-11-29 16:50:11 UTC (rev 683)
+> > > +++ trunk/maay/indexer.py     2005-11-29 16:50:40 UTC (rev 684)
+> > > @@ -196,7 +196,7 @@
+> > >                  self.indexFile(filename, isPrivate)
+> > >  # FIXME: a UnicodeError may be raised and is not catched.
+> > >  #            except FileIndexationFailure, fif: # should be
+> > catch-all
+> >
+> > Hi,
+> >
+> > Did you really discover an unicode exception bubling up to this place
+> > ? Can you report it ?
+> >
+> > Thanks,
+> > Aurelien
+> >
+> 
+> 
+> --
+> Fr?d?ric Dang Ngoc
+
+
+
+

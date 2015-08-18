@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r684%20-%20trunk/maay&In-Reply-To=%3C20051130084308.GA3977%40logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000066.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay</H1>
+    <B>Aur&#233;lien Camp&#233;as</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20Re%3A%20%5BMaay-svncheckins%5D%20r684%20-%20trunk/maay&In-Reply-To=%3C20051130084308.GA3977%40logilab.fr%3E"
+       TITLE="[Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay">aurelien.campeas at logilab.fr
+       </A><BR>
+    <I>Wed Nov 30 09:43:09 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000066.html">[Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Tue, Nov 29, 2005 at 07:44:34PM +0100, Fr&#233;d&#233;ric Dang Ngoc wrote:
+&gt;<i> Bonjour Aur&#233;lien,
+</I>
+Bonjour Fr&#233;d&#233;ric,
+
+&gt;<i> 
+</I>&gt;<i> d&#233;sol&#233; d'avoir sauvagement modifi&#233; le fichier indexer.py.
+</I>
+Pas de soucis.
+
+&gt;<i> 
+</I>&gt;<i> Je vais regarder le probl&#232;me plus en d&#233;tail apr&#232;s la demo de demain et
+</I>&gt;<i> d'apr&#232;s demain.
+</I>&gt;<i> 
+</I>&gt;<i> description du probl&#232;me :
+</I>&gt;<i> Sur mes deux ordinateurs sous windows, l'indexation marche bien.
+</I>&gt;<i> Par contre sur l'ordinateur d'un coll&#232;gue sous windows, l'indexeur
+</I>&gt;<i> plante sur plusieurs de ses fichiers (unicodeerror ....).
+</I>&gt;<i> Quand je copie ces fichiers sur mon ordinateur et que je les indexe,
+</I>&gt;<i> je n'ai pas de probl&#232;me.
+</I>&gt;<i> 
+</I>&gt;<i> Je te joins un fichier qui pose probl&#232;me sur son ordinateur.
+</I>&gt;<i> 
+</I>&gt;<i> ainsi que les traces (qui ne sont pas tr&#232;s parlantes malheureusement...).
+</I>&gt;<i> 
+</I>
+La trace serait plus parlante si tu incluais quelques lignes plus en amont,
+incluant le message d'&#233;chec de l'indexeur (&quot;Won't index ...&quot;),
+histoire d'obtenir le nom du fichier coupable.
+
+Cela dit alexandre m'a signal&#233; qqchose de similaire hier soir. Je m'y
+colle ...
+
+&gt;<i> 2005/11/29 17:02 Romance Standard Time [-] Exception in thread Thread-41:
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-] Traceback (most recent call last):
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File &quot;threading.pyc&quot;,
+</I>&gt;<i> line 442, in __bootstrap
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File &quot;threading.pyc&quot;,
+</I>&gt;<i> line 422, in run
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File &quot;maay\indexer.pyc&quot;,
+</I>&gt;<i> line 422, in runLocally
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File &quot;maay\indexer.pyc&quot;,
+</I>&gt;<i> line 148, in start
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File &quot;maay\indexer.pyc&quot;,
+</I>&gt;<i> line 198, in runIndexer
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]   File
+</I>&gt;<i> &quot;twisted\python\log.pyc&quot;, line 313, in write
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-] UnicodeDecodeError: 'ascii'
+</I>&gt;<i> codec can't decode byte 0xe9 in position 61: ordinal not in range(128)
+</I>&gt;<i> 2005/11/29 17:02 Romance Standard Time [-]
+</I>&gt;<i> 
+</I>&gt;<i> A+,
+</I>&gt;<i> 
+</I>&gt;<i> Fr&#233;d&#233;ric
+</I>&gt;<i> 
+</I>&gt;<i> On 11/29/05, Aur&#233;lien Camp&#233;as &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/maay-dev">aurelien.campeas at logilab.fr</A>&gt; wrote:
+</I>&gt;<i> &gt; On Tue, Nov 29, 2005 at 05:50:41PM +0100, dnf at BerliOS wrote:
+</I>&gt;<i> &gt; &gt; Author: dnf
+</I>&gt;<i> &gt; &gt; Modified: trunk/maay/indexer.py
+</I>&gt;<i> &gt; &gt; ===================================================================
+</I>&gt;<i> &gt; &gt; --- trunk/maay/indexer.py     2005-11-29 16:50:11 UTC (rev 683)
+</I>&gt;<i> &gt; &gt; +++ trunk/maay/indexer.py     2005-11-29 16:50:40 UTC (rev 684)
+</I>&gt;<i> &gt; &gt; @@ -196,7 +196,7 @@
+</I>&gt;<i> &gt; &gt;                  self.indexFile(filename, isPrivate)
+</I>&gt;<i> &gt; &gt;  # FIXME: a UnicodeError may be raised and is not catched.
+</I>&gt;<i> &gt; &gt;  #            except FileIndexationFailure, fif: # should be
+</I>&gt;<i> &gt; catch-all
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Hi,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Did you really discover an unicode exception bubling up to this place
+</I>&gt;<i> &gt; ? Can you report it ?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Thanks,
+</I>&gt;<i> &gt; Aurelien
+</I>&gt;<i> &gt;
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> --
+</I>&gt;<i> Fr&#233;d&#233;ric Dang Ngoc
+</I>
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000066.html">[Maay-dev] Re: [Maay-svncheckins] r684 - trunk/maay
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#67">[ date ]</a>
+              <a href="thread.html#67">[ thread ]</a>
+              <a href="subject.html#67">[ subject ]</a>
+              <a href="author.html#67">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>

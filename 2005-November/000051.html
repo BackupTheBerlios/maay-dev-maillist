@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Maay-dev] [Maay] as windows service
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/maay-dev/2005-November/index.html" >
+   <LINK REL="made" HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20%5BMaay%5D%20as%20windows%20service&In-Reply-To=%3C20051122091726.GA1260%40logilab.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000049.html">
+   <LINK REL="Next"  HREF="000053.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Maay-dev] [Maay] as windows service</H1>
+    <B>Aur&#233;lien Camp&#233;as</B> 
+    <A HREF="mailto:maay-dev%40lists.berlios.de?Subject=Re%3A%20%5BMaay-dev%5D%20%5BMaay%5D%20as%20windows%20service&In-Reply-To=%3C20051122091726.GA1260%40logilab.fr%3E"
+       TITLE="[Maay-dev] [Maay] as windows service">aurelien.campeas at logilab.fr
+       </A><BR>
+    <I>Tue Nov 22 10:17:26 CET 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000049.html">[Maay-dev] NOTE FOR WINDOWS USERS
+</A></li>
+        <LI>Next message: <A HREF="000053.html">[Maay-dev] Re: [Maay-svncheckins] r619 - in trunk: . maay/data
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear Maay developpers,
+
+It has probably not escaped you that release 0.2.2 suffers from two
+minor but inconvenient malfunctions for windows users :
+
+* the maay node service was not set up as 'automatic', thus the
+  service will not be started automatically on reboot,
+
+* the windows service manager was not told that the maay node service
+  depends on the mysql service, which could lead to an unusable maay
+  node service if it were started before mysql is ready to accepts
+  connections.
+
+Right now, we have a fix for these problems. Note that for the first
+problem, we already send a note to maay-dev and highlighted the
+problem on the maay.net-of-peers wikimedia site, and a workaround for
+it.
+
+If the deployment process is still in the early phase, we can provide
+a new release (0.2.3) that fixes only these two points, so as to not
+affect the Maay experience for Windows users.
+
+Respectfully,
+Aur&#233;lien Camp&#233;as.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000049.html">[Maay-dev] NOTE FOR WINDOWS USERS
+</A></li>
+	<LI>Next message: <A HREF="000053.html">[Maay-dev] Re: [Maay-svncheckins] r619 - in trunk: . maay/data
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/maay-dev">More information about the Maay-dev
+mailing list</a><br>
+</body></html>
